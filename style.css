@@ -107,6 +107,30 @@ body{
     box-shadow:0 6px 18px rgba(0,0,0,0.08);
 }
 
+/* VISUALS PAGE LINKS */
+.visual-link{
+    display:block;
+    text-align:center;
+    margin:25px 0;
+}
+
+.visual-link a{
+    font-size:1.2em;
+    font-weight:500;
+    color:#2a5d84;
+    text-decoration:none;
+}
+
+.visual-link a:hover{
+    text-decoration:underline;
+}
+
+.visual-link p{
+    font-size:0.95em;
+    color:#555;
+    margin-top:5px;
+}
+
 /* FOOTER */
 footer{
     text-align:center;
