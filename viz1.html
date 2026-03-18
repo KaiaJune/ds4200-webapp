@@ -13,10 +13,13 @@
 </style>
 </head>
 <body>
+
 <h1>Top Genres by Age</h1>
 <h2>Understanding the Age and Genre Profile of an Artist’s Audience</h2>
 <p>This shows the genre backgrounds of listeners who frequently play the artist, helping identify which age groups and music audiences the artist may want to target for marketing or promotion. Use the dropdown below to select an artist.</p>
+
 <div id="chart"></div>
+<p style="text-align:center; font-style:italic; color:#555;">Placeholder paragraph</p>
 
 <script>
 // Load the JSON data
@@ -24,15 +27,11 @@ fetch('agg_data.json')
   .then(response => response.json())
   .then(data => {
 
-    // Get top artists
     const topArtists = [...new Set(data.map(d => d["Most Played Artist"]))];
-
-    // Get min and max ages
     const ages = data.map(d => d["Age"]);
     const ageMin = Math.min(...ages);
     const ageMax = Math.max(...ages);
 
-    // Function to get traces for an artist and max age
     function getTraces(artist, maxAge = ageMax) {
       const artistData = data.filter(d => d["Most Played Artist"] === artist && d["Age"] <= maxAge);
       const genres = [...new Set(artistData.map(d => d["Top Genre"]))];
@@ -47,20 +46,18 @@ fetch('agg_data.json')
       });
     }
 
-    // Initial plot
     const initialArtist = topArtists[0];
     let traces = getTraces(initialArtist);
 
-    // Layout with dropdown, annotations, and margins
     const layout = {
-      title: { text: "", x: 0.5 },
+      title: "Understanding the Age and Genre Profile of an Artist’s Audience",
       xaxis: { title: "Age" },
       yaxis: { title: "Number of Listeners" },
       updatemenus: [{
         type: 'dropdown',
         x: 0.5,
         xanchor: 'center',
-        y: 1.15,
+        y: 1.1,
         yanchor: 'top',
         buttons: topArtists.map(artist => ({
           method: 'update',
@@ -86,14 +83,12 @@ fetch('agg_data.json')
           };
         })
       }],
-      annotations: [
-        { text: "Select an artist to view their audience profile:", xref:"paper", yref:"paper", x:0.5, y:1.2, showarrow:false, font:{size:12}, xanchor:"center" }
-      ],
-      margin: { t:150, r:150, b:80 }
+      margin: { t:100, r:50, b:50 }
     };
 
     Plotly.newPlot('chart', traces, layout, {responsive: true});
 });
 </script>
+
 </body>
 </html>
