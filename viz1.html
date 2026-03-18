@@ -8,10 +8,14 @@
 <style>
   body { font-family: 'Poppins', sans-serif; background:#f5f7fa; color:#333; margin:0; padding:20px;}
   #chart { width: 100%; max-width: 1000px; height: 600px; margin: auto; }
+  h1, h2 { text-align: center; margin-bottom: 10px; }
+  p { text-align: center; max-width: 800px; margin: 5px auto 20px auto; }
 </style>
 </head>
 <body>
-<h1 style="text-align:center;">Top Genres by Age</h1>
+<h1>Top Genres by Age</h1>
+<h2>Understanding the Age and Genre Profile of an Artist’s Audience</h2>
+<p>This shows the genre backgrounds of listeners who frequently play the artist, helping identify which age groups and music audiences the artist may want to target for marketing or promotion. Use the dropdown below to select an artist.</p>
 <div id="chart"></div>
 
 <script>
@@ -19,11 +23,18 @@
 fetch('agg_data.json')
   .then(response => response.json())
   .then(data => {
+
+    // Get top artists
     const topArtists = [...new Set(data.map(d => d["Most Played Artist"]))];
 
-    // Function to get traces for an artist
-    function getTraces(artist) {
-      const artistData = data.filter(d => d["Most Played Artist"] === artist);
+    // Get min and max ages
+    const ages = data.map(d => d["Age"]);
+    const ageMin = Math.min(...ages);
+    const ageMax = Math.max(...ages);
+
+    // Function to get traces for an artist and max age
+    function getTraces(artist, maxAge = ageMax) {
+      const artistData = data.filter(d => d["Most Played Artist"] === artist && d["Age"] <= maxAge);
       const genres = [...new Set(artistData.map(d => d["Top Genre"]))];
       return genres.map(genre => {
         const genreData = artistData.filter(d => d["Top Genre"] === genre);
@@ -36,32 +47,53 @@ fetch('agg_data.json')
       });
     }
 
-    // Initial plot with first artist
+    // Initial plot
     const initialArtist = topArtists[0];
-    const traces = getTraces(initialArtist);
+    let traces = getTraces(initialArtist);
 
+    // Layout with dropdown, annotations, and margins
     const layout = {
-      title: "Understanding the Age and Genre Profile of an Artist’s Audience",
+      title: { text: "", x: 0.5 },
       xaxis: { title: "Age" },
       yaxis: { title: "Number of Listeners" },
       updatemenus: [{
-        buttons: topArtists.map(artist => ({
-          method: 'restyle',
-          args: ['y', getTraces(artist).map(t => t.y)],
-          label: artist
-        })),
-        direction: "down",
+        type: 'dropdown',
         x: 0.5,
-        xanchor: "center",
+        xanchor: 'center',
         y: 1.15,
-        yanchor: "top",
-        showactive: true,
-        bgcolor: "lightgrey"
-      })]
+        yanchor: 'top',
+        buttons: topArtists.map(artist => ({
+          method: 'update',
+          label: artist,
+          args: [
+            getTraces(artist).map(t => ({ x: t.x, y: t.y, mode: t.mode, name: t.name })),
+            {}
+          ]
+        }))
+      }],
+      sliders: [{
+        pad: { t: 50 },
+        currentvalue: { prefix: "Max Age: " },
+        steps: Array.from({length: ageMax - ageMin + 1}, (_, i) => {
+          const maxAge = ageMin + i;
+          return {
+            label: String(maxAge),
+            method: 'update',
+            args: [
+              getTraces(initialArtist, maxAge).map(t => ({ x: t.x, y: t.y, mode: t.mode, name: t.name })),
+              {}
+            ]
+          };
+        })
+      }],
+      annotations: [
+        { text: "Select an artist to view their audience profile:", xref:"paper", yref:"paper", x:0.5, y:1.2, showarrow:false, font:{size:12}, xanchor:"center" }
+      ],
+      margin: { t:150, r:150, b:80 }
     };
 
-    Plotly.newPlot('chart', traces, layout);
-  });
+    Plotly.newPlot('chart', traces, layout, {responsive: true});
+});
 </script>
 </body>
 </html>
