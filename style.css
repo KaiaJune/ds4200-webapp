@@ -1,0 +1,133 @@
+/* Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+
+body{
+    font-family:'Poppins', sans-serif;
+    margin:0;
+    background:#f5f7fa;
+    color:#333;
+}
+
+/* NAVBAR */
+.navbar{
+    width:100%;
+    background:white;
+    box-shadow:0 2px 8px rgba(0,0,0,0.08);
+}
+
+.nav-container{
+    max-width:1100px;
+    margin:auto;
+    padding:18px 20px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.logo{
+    font-size:20px;
+    font-weight:600;
+    color:#2a5d84;
+}
+
+.navbar nav a{
+    margin-left:25px;
+    text-decoration:none;
+    font-weight:500;
+    color:#444;
+}
+
+.navbar nav a:hover{
+    color:#2a5d84;
+}
+
+/* HERO SECTION */
+.hero{
+    padding:80px 20px;
+}
+
+.hero-content{
+    max-width:1100px;
+    margin:auto;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:50px;
+}
+
+.hero-text{
+    max-width:520px;
+}
+
+.hero-text h1{
+    font-size:42px;
+    margin-bottom:10px;
+}
+
+.hero-text h2{
+    color:#2a5d84;
+    font-weight:500;
+    margin-bottom:20px;
+}
+
+.hero-text p{
+    line-height:1.6;
+    margin-bottom:30px;
+}
+
+/* Button */
+.hero-button{
+    display:inline-block;
+    padding:12px 28px;
+    background:#2a5d84;
+    color:white;
+    text-decoration:none;
+    border-radius:30px;
+    font-weight:500;
+}
+
+.hero-button:hover{
+    background:#1f4a6a;
+}
+
+/* Hero Image */
+.hero-image img{
+    width:280px;
+    border-radius:50%;
+    box-shadow:0 10px 30px rgba(0,0,0,0.2);
+}
+
+/* CONTENT SECTION */
+.content-section{
+    max-width:1100px;
+    margin:60px auto;
+    background:white;
+    padding:40px;
+    border-radius:15px;
+    box-shadow:0 6px 18px rgba(0,0,0,0.08);
+}
+
+/* FOOTER */
+footer{
+    text-align:center;
+    margin-top:60px;
+    padding:30px;
+    background:#2a5d84;
+    color:white;
+}
+
+footer a{
+    color:#f0e68c;
+}
+
+/* MOBILE */
+@media(max-width:900px){
+.hero-content{
+    flex-direction:column;
+    text-align:center;
+}
+
+.hero-image img{
+    width:200px;
+}
+}
