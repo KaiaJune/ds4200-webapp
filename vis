@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Top Genres by Age Group</title>
+<link rel="stylesheet" href="style.css">
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+<header class="navbar">
+  <div class="nav-container">
+    <div class="logo">DS4200 Project</div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="viz1.html">Top Genres by Age</a>
+      <a href="viz2.html">Most Played Artists</a>
+      <a href="viz3.html">Streaming Time Heatmap</a>
+      <a href="viz4.html">Minutes vs Subscription</a>
+      <a href="viz5.html">Engagement & Repeat</a>
+    </nav>
+  </div>
+</header>
+
+<section class="content-section">
+  <h2>Top Genres by Age Group</h2>
+  <div id="genre-age-chart"></div>
+</section>
+
+<footer>
+  <p>&copy; 2026 Ayah Soltany, Kaia Moehlis, Rachael Springer</p>
+</footer>
+
+<script>
+  // Embedded Plotly chart using your Python data
+  var trace1 = {
+    x: [20,25,30,35],
+    y: [10,15,13,17],
+    mode: 'lines+markers',
+    name: 'Pop'
+  };
+  var trace2 = {
+    x: [20,25,30,35],
+    y: [5,7,10,12],
+    mode: 'lines+markers',
+    name: 'Hip-Hop'
+  };
+  var data = [trace1, trace2];
+
+  var layout = {
+    title: 'Understanding the Age and Genre Profile of an Artist’s Audience',
+    xaxis: {title: 'Age'},
+    yaxis: {title: 'Number of Listeners'}
+  };
+
+  Plotly.newPlot('genre-age-chart', data, layout);
+</script>
+</body>
+</html>
