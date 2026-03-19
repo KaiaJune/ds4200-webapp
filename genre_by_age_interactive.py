@@ -2,7 +2,7 @@ import pandas as pd
 import plotly.graph_objects as go
 import plotly.io as pio
 
-# Load dataset from repo
+# Load dataset (from your repo)
 df = pd.read_csv("ds4200_global_streaming_cleaned.csv")
 
 # Keep only necessary columns
@@ -12,21 +12,20 @@ df = df[['Age', 'Top Genre', 'Most Played Artist']]
 top_artists = df['Most Played Artist'].value_counts().nlargest(10).index.tolist()
 df = df[df['Most Played Artist'].isin(top_artists)]
 
-# Pre-aggregate counts for faster plotting
+# Pre-aggregate counts
 agg = df.groupby(['Most Played Artist', 'Age', 'Top Genre']).size().reset_index(name='Count')
 
 # Start with the first artist
 initial_artist = top_artists[0]
 artist_data = agg[agg['Most Played Artist'] == initial_artist]
 
-# Get min and max ages for the slider
+# Min/max ages for slider
 age_min = int(df['Age'].min())
 age_max = int(df['Age'].max())
 
-# Create the figure
+# Create figure
 fig = go.Figure()
 
-# Add initial traces (all genres for the first artist)
 genres = artist_data['Top Genre'].unique()
 for genre in genres:
     genre_data = artist_data[artist_data['Top Genre'] == genre]
@@ -37,7 +36,7 @@ for genre in genres:
         name=genre
     ))
 
-# Create age slider steps
+# Sliders
 steps = []
 for age in range(age_min, age_max + 1):
     step_data = []
@@ -58,29 +57,22 @@ sliders = [dict(
     steps=steps
 )]
 
-# Create dropdown buttons for top artists
+# Dropdown for artists
 dropdown_buttons = []
 for artist in top_artists:
     artist_filtered = agg[agg['Most Played Artist'] == artist]
     genres_artist = artist_filtered['Top Genre'].unique()
-    y_data = []
-    for genre in genres_artist:
-        y_data.append(artist_filtered[artist_filtered['Top Genre'] == genre]['Count'].tolist())
+    y_data = [artist_filtered[artist_filtered['Top Genre'] == g]['Count'].tolist() for g in genres_artist]
 
     dropdown_buttons.append(dict(
         label=artist,
         method="restyle",
-        args=[{"y": y_data,
-               "name": list(genres_artist)}]  # Only update data, not title
+        args=[{"y": y_data, "name": list(genres_artist)}]
     ))
 
-# Update layout with title, sliders, dropdown, annotations
+# Layout
 fig.update_layout(
-    title={
-        "text": "Understanding the Age and Genre Profile of an Artist’s Audience",
-        "x": 0.5,
-        "y": 0.98
-    },
+    title={"text": "Understanding the Age and Genre Profile of an Artist’s Audience", "x":0.5},
     xaxis=dict(title="Age"),
     yaxis=dict(title="Number of Listeners"),
     updatemenus=[dict(
@@ -89,45 +81,17 @@ fig.update_layout(
         x=0.5,
         xanchor="center",
         y=1.15,
-        yanchor="top",
-        pad={"r": 10, "t": 10},
-        showactive=True,
-        bgcolor="lightgrey",
-        bordercolor="black",
-        font=dict(size=12),
-        active=0
+        yanchor="top"
     )],
     sliders=sliders,
-    annotations=[
-        dict(
-            text="This shows the genre backgrounds of listeners who frequently play the artist, helping identify which age groups and music audiences the artist may want to target for marketing or promotion.",
-            xref="paper",
-            yref="paper",
-            x=0.5,
-            y=1.25,
-            showarrow=False,
-            font=dict(size=12),
-            xanchor="center"
-        ),
-        dict(
-            text="Select an artist to view their audience profile:",
-            xref="paper",
-            yref="paper",
-            x=0.5,
-            y=1.2,
-            showarrow=False,
-            font=dict(size=12),
-            xanchor="center"
-        )
-    ],
     margin=dict(t=150, r=150, b=80)
 )
 
-# Save **full HTML** so iframe can render properly
+# Save **full HTML** for iframe
 pio.write_html(
     fig,
     file="genre_by_age_interactive.html",
+    full_html=True,       # ✅ critical for iframe
     include_plotlyjs="cdn",
-    full_html=True,   # Important! Must be True for iframe to render the plot
     auto_open=True
 )
