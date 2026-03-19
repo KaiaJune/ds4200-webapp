@@ -30,6 +30,7 @@ body{
     color:#2a5d84;
 }
 
+/* Ensure navbar links are always same color as Home */
 .navbar nav a{
     margin-left:25px;
     text-decoration:none;
