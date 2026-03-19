@@ -108,11 +108,31 @@ body{
     box-shadow:0 6px 18px rgba(0,0,0,0.08);
 }
 
-/* VISUALS PAGE LINKS */
+/* VISUALS PAGE GRID */
+.visual-grid {
+    display: grid;
+    grid-template-columns: 1fr; /* 1 card per row */
+    gap: 30px;
+    max-width: 800px; /* slightly wider cards */
+    margin: 0 auto;
+    justify-items: center;
+}
+
 .visual-link{
     display:block;
     text-align:center;
-    margin:25px 0;
+    background:white;
+    border-radius:12px;
+    padding:25px 20px;
+    box-shadow:0 6px 18px rgba(0,0,0,0.08);
+    transition: transform 0.3s, box-shadow 0.3s;
+    width:100%; /* full width of grid cell */
+    max-width: 700px; /* slightly wider than before */
+}
+
+.visual-link:hover{
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
 }
 
 .visual-link a{
@@ -120,6 +140,8 @@ body{
     font-weight:500;
     color:#2a5d84;
     text-decoration:none;
+    display:block;
+    margin-bottom:10px;
 }
 
 .visual-link a:hover{
