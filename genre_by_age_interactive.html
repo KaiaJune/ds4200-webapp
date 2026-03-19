@@ -71,10 +71,10 @@ for artist in top_artists:
         label=artist,
         method="restyle",
         args=[{"y": y_data,
-               "name": list(genres_artist)}]  # Only update data, not title
+               "name": list(genres_artist)}]
     ))
 
-# Update layout
+# Update layout with improved spacing
 fig.update_layout(
     title={
         "text": "Understanding the Age and Genre Profile of an Artist’s Audience",
@@ -123,5 +123,10 @@ fig.update_layout(
     margin=dict(t=150, r=150, b=80)
 )
 
-# Export **just the snippet** for embedding in HTML
-pio.write_html(fig, file="genre_by_age_interactive.html", include_plotlyjs="cdn", full_html=False)
+pio.write_html(
+    fig,
+    file="/Users/kaiamoehlis/Desktop/ds4200-webapp/genre_by_age_interactive.html",
+    include_plotlyjs="cdn",
+    full_html=False,
+    auto_open=True
+)
