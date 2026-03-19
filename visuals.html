@@ -12,7 +12,44 @@
   .navbar a { color:#fff; margin-left:15px; text-decoration:none; font-weight:bold; }
   h1, h2 { text-align:center; margin-bottom:10px; }
   p { text-align:center; max-width:800px; margin:10px auto 30px auto; }
-  .visual-link { display:block; text-align:center; margin:20px 0; font-size:1.1em; }
+
+  /* VISUAL GRID */
+  .visual-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .visual-link {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+    transition: transform 0.3s, box-shadow 0.3s;
+    text-align: center;
+  }
+
+  .visual-link:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  }
+
+  .visual-link a {
+    display: block;
+    font-size: 1.2em;
+    font-weight: 600;
+    color: #2a5d84;
+    margin-bottom: 10px;
+    text-decoration: none;
+  }
+
+  .visual-link p {
+    font-size: 0.95em;
+    color: #555;
+  }
+
 </style>
 </head>
 <body>
@@ -31,29 +68,31 @@
   <h1>Project Visualizations</h1>
   <p>Below are links to each visualization. Click to view the chart when it is ready. Short descriptions explain what each visual will show.</p>
   
-  <div class="visual-link">
-    <a href="viz1.html">Top Genres by Age</a>
-    <p>Shows the distribution of music genres across listener ages for different artists. Interactive with dropdowns and sliders.</p>
-  </div>
+  <div class="visual-grid">
+    <div class="visual-link">
+      <a href="viz1.html">Top Genres by Age</a>
+      <p>Shows the distribution of music genres across listener ages for different artists. Interactive with dropdowns and sliders.</p>
+    </div>
 
-  <div class="visual-link">
-    <a href="viz2.html">Most Played Artists</a>
-    <p>Displays the most popular artists across countries and regions. Will include a bar chart or alternative visualization.</p>
-  </div>
+    <div class="visual-link">
+      <a href="viz2.html">Most Played Artists</a>
+      <p>Displays the most popular artists across countries and regions. Will include a bar chart or alternative visualization.</p>
+    </div>
 
-  <div class="visual-link">
-    <a href="viz3.html">Streaming Time Heatmap</a>
-    <p>Illustrates when users listen most across platforms using a heatmap of times of day vs platforms.</p>
-  </div>
+    <div class="visual-link">
+      <a href="viz3.html">Streaming Time Heatmap</a>
+      <p>Illustrates when users listen most across platforms using a heatmap of times of day vs platforms.</p>
+    </div>
 
-  <div class="visual-link">
-    <a href="viz4.html">Minutes vs Subscription Type</a>
-    <p>Compares average minutes streamed per day between Free and Premium users using an interactive scatter plot.</p>
-  </div>
+    <div class="visual-link">
+      <a href="viz4.html">Minutes vs Subscription Type</a>
+      <p>Compares average minutes streamed per day between Free and Premium users using an interactive scatter plot.</p>
+    </div>
 
-  <div class="visual-link">
-    <a href="viz5.html">Engagement & Repeat Behavior</a>
-    <p>Shows Discover Weekly engagement and repeat song rate, sized by number of songs liked.</p>
+    <div class="visual-link">
+      <a href="viz5.html">Engagement & Repeat Behavior</a>
+      <p>Shows Discover Weekly engagement and repeat song rate, sized by number of songs liked.</p>
+    </div>
   </div>
 </section>
 
