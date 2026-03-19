@@ -2,10 +2,10 @@ import pandas as pd
 import plotly.graph_objects as go
 import plotly.io as pio
 
-# Load dataset
+# Load dataset from repo
 df = pd.read_csv("ds4200_global_streaming_cleaned.csv")
 
-# Keep needed columns
+# Keep only necessary columns
 df = df[['Age', 'Top Genre', 'Most Played Artist']]
 
 # Get top 10 artists
@@ -71,10 +71,10 @@ for artist in top_artists:
         label=artist,
         method="restyle",
         args=[{"y": y_data,
-               "name": list(genres_artist)}]
+               "name": list(genres_artist)}]  # Only update data, not title
     ))
 
-# Update layout with improved spacing
+# Update layout with title, sliders, dropdown, annotations
 fig.update_layout(
     title={
         "text": "Understanding the Age and Genre Profile of an Artist’s Audience",
@@ -123,10 +123,11 @@ fig.update_layout(
     margin=dict(t=150, r=150, b=80)
 )
 
+# Save **full HTML** so iframe can render properly
 pio.write_html(
     fig,
-    file="/Users/kaiamoehlis/Desktop/ds4200-webapp/genre_by_age_interactive.html",
+    file="genre_by_age_interactive.html",
     include_plotlyjs="cdn",
-    full_html=True,
+    full_html=True,   # Important! Must be True for iframe to render the plot
     auto_open=True
 )
