@@ -3,53 +3,48 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DS4200 Project Visuals</title>
+<title>Top Genres by Age - DS4200 Project</title>
 <link rel="stylesheet" href="style.css">
 <style>
-  body { font-family: 'Poppins', sans-serif; background:#f5f7fa; color:#333; margin:0; padding:20px;}
+  body { font-family: 'Poppins', sans-serif; background:#f5f7fa; color:#333; margin:0; padding:20px; }
 
-  h1, h2 { text-align:center; margin-bottom:10px; }
-  p { text-align:center; max-width:800px; margin:10px auto 30px auto; }
+  /* Page title */
+  h1 { text-align:center; margin-bottom:20px; color:#2a5d84; }
 
-  /* VISUAL GRID - 1 card per row, wider cards */
-  .visual-grid {
-    display: grid;
-    grid-template-columns: 1fr; /* always 1 card per row */
-    gap: 20px;
-    max-width: 800px; /* controls width of all cards together */
-    margin: 0 auto;
+  /* Chart placeholder */
+  .chart-container {
+    max-width:900px;
+    margin:0 auto 30px auto;
+    height:450px;
+    background:#fff;
+    border-radius:12px;
+    box-shadow:0 6px 18px rgba(0,0,0,0.08);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:1.2em;
+    color:#555;
   }
 
-  .visual-link {
-    background: white;
-    border-radius: 12px;
-    padding: 25px;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
-    transition: transform 0.3s, box-shadow 0.3s;
-    text-align: center;
-    max-width: 700px; /* optional: limits width of each card */
-    margin: 0 auto;   /* center the card */
+  /* Description card */
+  .description-card {
+    max-width:900px;
+    margin:0 auto 50px auto;
+    background:white;
+    border-radius:12px;
+    padding:20px;
+    box-shadow:0 6px 18px rgba(0,0,0,0.08);
+    text-align:center;
+    line-height:1.6;
+    font-size:1em;
+    color:#333;
   }
 
-  .visual-link:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  /* Responsive */
+  @media(max-width:600px){
+    .chart-container { height:300px; font-size:1em; }
+    .description-card { font-size:0.95em; padding:15px; }
   }
-
-  .visual-link a {
-    display: block;
-    font-size: 1.2em;
-    font-weight: 600;
-    color: #2a5d84;
-    margin-bottom: 10px;
-    text-decoration: none;
-  }
-
-  .visual-link p {
-    font-size: 0.95em;
-    color: #555;
-  }
-
 </style>
 </head>
 <body>
@@ -65,40 +60,30 @@
   </div>
 </header>
 
-<section class="content-section">
-  <h1>Project Visualizations</h1>
-  <p>Below are links to each visualization.</p>
-  
-  <div class="visual-grid">
-    <div class="visual-link">
-      <a href="visual1.html">Understanding the Age and Genre Profile of an Artist’s Audience</a>
-      <p>Shows the top 10 artists’ listener counts by age and genre, with dropdowns and a slider to explore different artists and age groups.</p>
-    </div>
+<main>
+  <h1>Understanding the Age and Genre Profile of an Artist’s Audience</h1>
 
-    <div class="visual-link">
-      <a href="visual2.html">Streaming Behavior by Subscription Type</a>
-      <p>Shows daily minutes streamed by subscription type for each genre, with dropdowns and a slider to explore different genres and age groups.</p>
-    </div>
+<!-- Visualization placeholder -->
+<div class="chart-container">
+  <iframe 
+    src="genre_by_age_visual_1.html" 
+    width="100%" 
+    height="100%" 
+    style="border:none;">
+  </iframe>
+</div>
 
-    <div class="visual-link">
-      <a href="visual3.html">VISUAL3/UPDATE TITLE</a>
-      <p>ADD DESCRIPTION HERE</p>
-    </div>
-
-    <div class="visual-link">
-      <a href="visual4.html">VISUAL4/UPDATE TITLE</a>
-      <p>ADD DESCRIPTION HERE</p>
-    </div>
-
-    <div class="visual-link">
-      <a href="visual5.html">VISUAL5/UPDATE TITLE</a>
-      <p>ADD DESCRIPTION HERE</p>
-    </div>
+  <!-- Description card -->
+  <div class="description-card">
+    <h2 style="margin-bottom:15px; color:#2a5d84;">Description and Interpretation</h2>
+    This interactive chart shows the top music artists and how their fans are spread across different ages and genres. You can explore which age groups love each artist the most and see which genres are trending with different listeners. It’s perfect for anyone curious about music trends - whether you’re discovering new artists, planning a release, or just want to see how age and taste shape the music world.
   </div>
-</section>
+</main>
 
 <footer>
-  <p>&copy; 2026 Ayah Soltany, Kaia Moehlis, Rachael Springer | <a href="https://www.kaggle.com/datasets/atharvasoundankar/global-music-streaming-trends-and-listener-insights" target="_blank">Dataset</a></p>
+  <p>&copy; 2026 Ayah Soltany, Kaia Moehlis, Rachael Springer | 
+    <a href="https://www.kaggle.com/datasets/atharvasoundankar/global-music-streaming-trends-and-listener-insights" target="_blank">Dataset</a>
+  </p>
 </footer>
 
 </body>
