@@ -79,59 +79,7 @@
     This interactive chart shows the top music artists and how their fans are spread across different ages and genres. You can explore which age groups love each artist the most and see which genres are trending with different listeners. It’s perfect for anyone curious about music trends - whether you’re discovering new artists, planning a release, or just want to see how age and taste shape the music world.
   </div>
 
-    /* Page title */
-  h1 { text-align:center; margin-bottom:20px; color:#2a5d84; }
 
-  /* Chart placeholder */
-  .chart-container {
-    max-width:900px;
-    margin:0 auto 30px auto;
-    height:450px;
-    background:#fff;
-    border-radius:12px;
-    box-shadow:0 6px 18px rgba(0,0,0,0.08);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:1.2em;
-    color:#555;
-  }
-
-  /* Description card */
-  .description-card {
-    max-width:900px;
-    margin:0 auto 50px auto;
-    background:white;
-    border-radius:12px;
-    padding:20px;
-    box-shadow:0 6px 18px rgba(0,0,0,0.08);
-    text-align:center;
-    line-height:1.6;
-    font-size:1em;
-    color:#333;
-  }
-
-  /* Responsive */
-  @media(max-width:600px){
-    .chart-container { height:300px; font-size:1em; }
-    .description-card { font-size:0.95em; padding:15px; }
-  }
-</style>
-</head>
-<body>
-
-<header class="navbar">
-  <div class="nav-container">
-    <div class="logo">DS4200 Project</div>
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="visuals.html">Visuals</a>
-      <a href="summary.html">Summary</a>
-    </nav>
-  </div>
-</header>
-
-<main>
   <h1>Streaming Behavior by Subscription Type</h1>
 
   <div class="chart-container">
