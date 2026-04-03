@@ -11,41 +11,6 @@
   /* Page title */
   h1 { text-align:center; margin-bottom:20px; color:#2a5d84; }
 
-  /* Chart placeholder */
-  .chart-container {
-    width:100%;
-    max-width:900px;
-    margin:0 auto 30px auto;
-    height:600px;
-    background:#fff;
-    border-radius:12px;
-    box-shadow:0 6px 18px rgba(0,0,0,0.08);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:1.2em;
-    color:#555;
-  }
-
-  /* Description card */
-  .description-card {
-    max-width:900px;
-    margin:0 auto 50px auto;
-    background:white;
-    border-radius:12px;
-    padding:20px;
-    box-shadow:0 6px 18px rgba(0,0,0,0.08);
-    text-align:center;
-    line-height:1.6;
-    font-size:1em;
-    color:#333;
-  }
-
-  /* Responsive */
-  @media(max-width:600px){
-    .chart-container { height:300px; font-size:1em; }
-    .description-card { font-size:0.95em; padding:15px; }
-  }
 </style>
 </head>
 <body>
@@ -62,87 +27,81 @@
 </header>
 
 <main>
-
-<!-- Description card -->
-  <div class="description-card">
-    <h2 style="margin-bottom:15px; color:#2a5d84;">Artist Audience Profile: Age & Genre Trends</h2>
-    This interactive chart shows how each artist’s audience is distributed across age groups and music genres. Use it to identify which demographics engage most with your music and understand genre preferences across listeners. These insights can help guide targeting, marketing strategy, and release planning.
-  </div>
-  
-<!-- Visualization placeholder --> -->
+<!-- AGE AND GENRE VISUALIZATION -->
   <div class="chart-container">
+    <h2 class="chart-title">Age & Genre Trends</h2>
+    <p class="chart-description">
+      This chart is cool
+    </p>
+
+
     <iframe 
       src="top_genre_by_age_group.html" 
-      width="100%" 
-      height="100%" 
-      style="border:none;">
+      style="border:none;"
+      class="chart-frame">
     </iframe>
   </div>
 
-  <!-- Description card -->
-  <div class="description-card">
-    <h2 style="margin-bottom:15px; color:#2a5d84;">Global Distribution of Top Artists by Country</h2>
-    This map shows the geographic distribution of top-played artists across countries, highlighting where each artist has the strongest listener presence. It enables comparison of regional popularity and helps identify key markets where an artist is performing well. These insights can support decisions around touring, marketing focus, and audience expansion. 
+    <!-- MAP VISUAL -->
+  <div class="chart-container">
+    <h2 class="chart-title">Map</h2>
+    <p class="chart-description">
+      This map is cool
+    </p>
+
+
+    <iframe 
+      src="top_played_artist_map.html" 
+      style="border:none;"
+      class="chart-frame">
+    </iframe>
   </div>
 
-  <!-- Visualization placeholder -->
+      <!-- DEEPER FILTER VISUAL 1 -->
   <div class="chart-container">
-  <iframe 
-    src="top_played_artist_map.html"
-    width="100%" 
-    height="100%" 
-    style="border:none;">
-  </iframe>
+    <h2 class="chart-title">Map</h2>
+    <p class="chart-description">
+      This map is cool
+    </p>
+
+
+    <iframe 
+      src="average_discover_weekly_engagement.html" 
+      style="border:none;"
+      class="chart-frame">
+    </iframe>
+  </div>
+
+      <!-- DEEPER FILTER VISUAL 2 -->
+  <div class="chart-container">
+    <h2 class="chart-title">Map</h2>
+    <p class="chart-description">
+      This map is cool
+    </p>
+
+
+    <iframe 
+      src="repeat_song_rate_per_genre_boxplot.html" 
+      style="border:none;"
+      class="chart-frame">
+    </iframe>
+  </div>
+
+      <!-- SUBSCRIPTION TYPE VISUAL -->
+  <div class="chart-container">
+    <h2 class="chart-title">Map</h2>
+    <p class="chart-description">
+      This map is cool
+    </p>
+
+
+    <iframe 
+      src="minutes_streamed_by_subscription.html" 
+      style="border:none;"
+      class="chart-frame">
+    </iframe>
   </div>
   
-  </div>
-    <!-- Description card -->
-    <div class="description-card">
-      <h2 style="margin-bottom:15px; color:#2a5d84;">Listener Engagement by Subscription and Age</h2>
-      This chart compares daily streaming time across subscription types, segmented by age and genre. It highlights differences in engagement between free and premium listeners, helping identify which audiences spend more time listening and where engagement is strongest. These insights can inform targeting, monetization strategy, and audience development.
-  </div>
-
-  <div class="chart-container">
-    <iframe 
-      src="minutes_streamed_by_subscription.html"
-      width="100%" 
-      height="100%" 
-      style="border:none;">
-    </iframe>
-  </div>
-
-  <!-- Description card -->
-  <div class="description-card">
-    <h2 style="margin-bottom:15px; color:#2a5d84;">Average Weekly Engagement by Genre</h2>
-    This chart compares average weekly listener engagement across music genres, highlighting which genres drive the highest levels of sustained listening. It enables quick comparison of performance across genres and reveals differences in how audiences interact with music. These insights can help inform genre positioning, content strategy, and release decisions.
-  </div>
-
-  <!-- Visualization placeholder -->
-  <div class="chart-container">
-  <iframe 
-    src="average_discover_weekly_engagement.html"
-    width="100%" 
-    height="100%" 
-    style="border:none;">
-  </iframe>
-  </div>
-
-   <!-- Description card -->
-  <div class="description-card">
-    <h2 style="margin-bottom:15px; color:#2a5d84;">Average Repeat Song Rate by Genre</h2>
-    This chart compares average song repeat rates across music genres, highlighting which genres drive the most repeated listening. It provides insight into listener retention and preference strength, showing where audiences are more likely to replay tracks. These insights can inform content strategy, release planning, and efforts to increase listener loyalty. 
-  </div>
-
-  <!-- Visualization placeholder -->
-  <div class="chart-container">
-  <iframe 
-    src="repeat_song_rate_per_genre_boxplot.html"
-    width="100%" 
-    height="100%" 
-    style="border:none;">
-  </iframe>
-  </div>
-
 </main>
 
 <footer>
