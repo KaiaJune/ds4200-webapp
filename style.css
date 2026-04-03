@@ -154,6 +154,41 @@ body{
     margin-top:5px;
 }
 
+/* CHARTS */
+.chart-container {
+    width: 100%;
+    max-width: 900px;
+    margin: 40px auto;
+    height: 700px;
+    padding: 20px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center
+
+}
+
+.chart-title {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.chart-description{
+    text-align: center;
+    margin-bottom: 20px;
+    color: #555;
+}
+
+.chart-frame{
+    width: 80%;
+    max-width: 800px;
+    height: 100%;
+    border: none;
+}
+
 /* FOOTER */
 footer{
     text-align:center;
