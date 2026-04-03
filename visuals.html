@@ -9,7 +9,7 @@
   body { font-family: 'Poppins', sans-serif; background:#f5f7fa; color:#333; margin:0; padding:20px; }
 
   /* Page title */
-  h1 { text-align:center; margin-bottom:20px; color:#2a5d84; }
+  h1 { text-align:center; margin-bottom:20px; color:#2a5d84; font-size:2em }
 
 </style>
 </head>
@@ -26,66 +26,122 @@
   </div>
 </header>
 
+<h1> We begin by analyzing trends in genre by age group </h1>
+
 <main>
 <!-- AGE AND GENRE VISUALIZATION -->
   <div class="chart-container">
-    <h2 class="chart-title">Age & Genre Trends</h2>
+    <h2 class="chart-title">Trends Between Age &  Top Genre</h2>
     <p class="chart-description">
-      This chart is cool
+      We begin our analysis by looking at how different age groups view music genres. The chart below can be filtered to five different
+      age groups. With each filter, the relationship for each genre is shown.
     </p>
 
+    <div class="chart-frame">
+      <iframe src="top_genre_by_age_group.html" 
+              frameborder = "0" 
+              width = "100%" 
+              height = "550"> </iframe>
+    </div>
+    <p class="chart-description" style="font-size:0.95em">
+      From this chart, we can determine a few trends: teens have a strong affinity for classical music. Those aged 46-60 have the most even
+      split of top genres. However, what stands out from this chart is the relationship between <b>18-25 year olds and EDM music.</b> 
+      The chart shows their relationship is the strongest compared to all other groups. </p>
+      
+    <p class="chart-description" style="font-size:0.95em">
+      Inside the 18-25 age group, 14% of users had EDM as their top genre. This
+      is a higher percentage than any other age group & top genre pair, with the next highest being 12.5% of those aged 26-35 liking Jazz music.
 
-    <iframe 
-      src="top_genre_by_age_group.html" 
-      style="border:none;"
-      class="chart-frame">
-    </iframe>
+    <p class="chart-description" style="font-size:0.95em">
+      Overall, the top genres per age group (Teen, 18-25, 26-35, 36-45, 46-60) are Classical, EDM, Jazz, Reggae, and Classical, respectively.
+    </p>
   </div>
 
-    <!-- MAP VISUAL -->
+     <!-- DEEPER FILTER VISUAL 2 -->
   <div class="chart-container">
-    <h2 class="chart-title">Map</h2>
+    <h2 class="chart-title">Repeat Song Rate Among Top Genres</h2>
     <p class="chart-description">
-      This map is cool
+      Next, we can analyze if more popular genres tend to have users that repeat songs most often. And, which genres tend to elicit repeat
+      song behavior.
     </p>
 
+    <div class="chart-frame">
+      <iframe src="repeat_song_rate_per_genre_boxplot.html" 
+              frameborder = "0" 
+              width = "80%" 
+              height = "550" 
+              style="margin-left: 80px;"> </iframe>
+    </div>
 
-    <iframe 
-      src="top_played_artist_map.html" 
-      style="border:none;"
-      class="chart-frame">
-    </iframe>
+    <p class="chart-description" style="font-size:0.95em">
+     We begin by analyzing <b>teenagers</b>. Their top genre was Classical music. Of all of the genres, teenagers had the highest repeat song rate for EDM and country music, 
+     rather than classical. Next, looking at those aged<b>18-25</b>, their top genre was EDM and they had a very strong relationship. Despite this, the repeat song rate was 
+     highest for Metal music. Those aged <b>26-35</b> most preferred jazz music. However, the repeat song rate for jazz is actually one of the lowewst in the age group. Their
+     top repeat song rates come from R&B and Country. For the <b>36-45</b> age group, they had the highest repeat song rate for country, metal and rock. And finally, the 
+     <b>46-60</b> age group had similar repeat song rates accross the board.
+    </p>
+
+    <p class="chart-description" style="font-size:0.95em">
+     One might expect the genre groups that have more fans would have a higher repeat song rate, however this has proven to not be true. Repeat song rate seems to depend on
+     the specific genre that users like. Country and metal music had generally the highest repeat song rates. This means these genres may have users repeating songs more often.
+    </p>
+
   </div>
 
       <!-- DEEPER FILTER VISUAL 1 -->
   <div class="chart-container">
-    <h2 class="chart-title">Map</h2>
+    <h2 class="chart-title">Discover Weekly Engagement Trends</h2>
     <p class="chart-description">
-      This map is cool
+      Next, we can analyze how age and genre impacts the weekly engagement with the discover applications.
     </p>
 
+    <div class="chart-frame" style="display: flex; justify-content: flex-start;">
+        <iframe src="average_discover_weekly_engagement.html" 
+                frameborder = "0" 
+                width = "80%" 
+                height = "550"
+                style="border:0; margin-left: 100px;""></iframe>> 
+    </div>
 
-    <iframe 
-      src="average_discover_weekly_engagement.html" 
-      style="border:none;"
-      class="chart-frame">
-    </iframe>
+    <p class="chart-description" style="font-size:0.95em">
+      When looking at the discover weekly engagement trends accross all age groups, there is no significant trend. However, when filtering to specific age groups,
+      some trends appear. First looking at <b>teenagers</b>, those who prefer Hip-Hop and Reggae have the highest weekly engagement. Hip-hop continues to have the
+      highest weekly engagement for the <b>18-25</b> age group. Those aged <b>26-35</b> that liked Jazz had the highest engagement. R&B was the highest for <b>36-45</b> 
+      year olds. And finally, the <b>46-60</b> age group had the highest engagement among those who like Rock music. 
+     </p>
+
+     <p class="chart-description" style="font-size:0.95em">
+      There appears to be no strong correlation between more popular genres and higher daily weekly engagement. There also seems to be no connection between repeat song 
+      rate and daily weekly engagement. However, within specific age groups there are genres with higher engagement. The biggest trend is that those aged 25 and under
+      who prefer Hip-Hop music engage in weekly engagement the most.
+     </p>
+
   </div>
 
-      <!-- DEEPER FILTER VISUAL 2 -->
+  <h1> Now, we will analyze how geographic location affects genre preferences. </h1>
+
+
+  <!-- MAP VISUAL -->
   <div class="chart-container">
-    <h2 class="chart-title">Map</h2>
+    <h2 class="chart-title">Top Genres by Country</h2>
     <p class="chart-description">
-      This map is cool
+      Next, we can analyze if geographic location has any effect on genre.
     </p>
 
 
-    <iframe 
-      src="repeat_song_rate_per_genre_boxplot.html" 
-      style="border:none;"
-      class="chart-frame">
-    </iframe>
-  </div>
+    <div class="chart-frame">
+      <iframe src="top_genre_by_country_map.html" 
+              frameborder = "0" 
+              width = "100%" 
+              height = "550"> </iframe>
+    </div>
+
+      <p class="chart-description">
+      For each genre, there appears to be a clear trend in which geographic location is most popular. Some genres have more prominent trends than others.
+      For example, EDM is only popular in Germany.
+      </p>
+    </div>
+
 
       <!-- SUBSCRIPTION TYPE VISUAL -->
   <div class="chart-container">
@@ -95,13 +151,14 @@
     </p>
 
 
-    <iframe 
-      src="minutes_streamed_by_subscription.html" 
-      style="border:none;"
-      class="chart-frame">
-    </iframe>
+      <div class="chart-frame">
+      <iframe src="minutes_streamed_by_subscription.html" 
+              frameborder = "0" 
+              width = "100%" 
+              height = "600"> </iframe>
+    </div>
   </div>
-  
+
 </main>
 
 <footer>
