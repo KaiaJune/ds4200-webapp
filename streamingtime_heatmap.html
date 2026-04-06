@@ -6,62 +6,56 @@
   <title>Streaming Time of Day vs Platform</title>
   <script src="https://d3js.org/d3.v7.min.js"></script>
   <style>
-    :root {
-      --spotify-green: #1DB954;
-      --spotify-dark: #121212;
-      --spotify-panel: #181818;
-      --spotify-card: #222222;
-      --spotify-text: #F5F5F5;
-      --spotify-muted: #B3B3B3;
-      --border: rgba(255,255,255,0.08);
-    }
-
     body {
+      font-family: 'Poppins', sans-serif;
       margin: 0;
-      font-family: Arial, sans-serif;
-      background: linear-gradient(180deg, #111 0%, #181818 100%);
-      color: var(--spotify-text);
+      background: #f5f7fa;
+      color: #333;
     }
 
-    .container {
-      max-width: 1180px;
-      margin: 28px auto;
-      padding: 22px 24px 26px;
-      background: var(--spotify-panel);
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
-    }
-
-    h1 {
-      text-align: center;
-      margin: 6px 0 8px;
-      font-size: 38px;
-      line-height: 1.15;
-    }
-
-    .subtitle {
-      text-align: center;
-      color: var(--spotify-muted);
+    .chart-container {
+      width: 100%;
       max-width: 900px;
-      margin: 0 auto 18px;
-      line-height: 1.5;
-      font-size: 15px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
     }
 
-    .insight-box {
-      margin: 0 auto 18px;
-      max-width: 960px;
-      background: rgba(29, 185, 84, 0.08);
-      border: 1px solid rgba(29, 185, 84, 0.25);
-      color: #EAFBEF;
-      border-radius: 12px;
-      padding: 12px 14px;
-      font-size: 14px;
+    .chart-title {
+      text-align: center;
+      margin-bottom: 0;
+      color: #333;
+    }
+
+    .chart-description {
+      text-align: center;
+      width: 78%;
+      color: #555;
+      line-height: 1.6;
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+
+    .note {
+      width: 78%;
+      color: #555;
+      font-size: 0.95rem;
       line-height: 1.5;
+      background: #eef6fc;
+      border-left: 4px solid #1984c5;
+      border-radius: 8px;
+      padding: 12px 14px;
     }
 
     #chart {
+      width: 100%;
       display: flex;
       justify-content: center;
     }
@@ -70,30 +64,30 @@
       position: absolute;
       opacity: 0;
       pointer-events: none;
-      background: rgba(18,18,18,0.96);
-      color: white;
-      border: 1px solid rgba(255,255,255,0.12);
+      background: white;
+      color: #333;
+      border: 1px solid rgba(0,0,0,0.12);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.12);
       padding: 10px 12px;
       border-radius: 8px;
       font-size: 13px;
       line-height: 1.45;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.35);
     }
 
     .axis path,
     .axis line {
-      stroke: rgba(255,255,255,0.18);
+      stroke: rgba(0,0,0,0.18);
     }
 
     .axis text {
-      fill: #E8E8E8;
+      fill: #333;
       font-size: 13px;
     }
 
     .axis-label {
-      fill: #FFFFFF;
+      fill: #333;
       font-size: 14px;
-      font-weight: 700;
+      font-weight: 600;
     }
 
     .cell-label {
@@ -101,43 +95,29 @@
       text-anchor: middle;
       dominant-baseline: middle;
       pointer-events: none;
-      font-weight: 700;
+      font-weight: 600;
     }
 
-    .legend-label, .footnote {
-      fill: var(--spotify-muted);
+    .legend-label,
+    .footnote {
+      fill: #555;
       font-size: 12px;
-    }
-
-    .footnote-wrap {
-      max-width: 960px;
-      margin: 10px auto 0;
-      color: var(--spotify-muted);
-      font-size: 13px;
-      line-height: 1.5;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Streaming Time of Day vs Platform</h1>
-    <p class="subtitle">
-      This heatmap compares when listeners are most active across streaming platforms.
-      Cell color shows the share of each platform’s listeners in a given time period, making
-      differences easier to spot than raw counts alone.
+  <div class="chart-container">
+    <h2 class="chart-title">Streaming Time of Day vs. Platform</h2>
+    <p class="chart-description">
+      This D3 heatmap shows how listening activity is distributed across streaming platforms and times of day.
+      Instead of only using raw counts, it displays the percentage of each platform’s listeners who are most active in
+      the morning, afternoon, or night, making differences in daily behavior much easier to compare.
     </p>
-
-    <div class="insight-box">
-      <strong>How to read this:</strong> brighter green cells indicate a larger share of listeners for that platform during that time window.
-      Percentages are calculated within each platform, so you can compare daily listening patterns more clearly across services.
+    <div class="note">
+      <strong>How to read it:</strong> darker blue cells indicate a larger share of that platform’s listeners during that time period.
+      Time ranges are labeled directly on the x-axis: Morning (6am–12pm), Afternoon (12pm–6pm), and Night (6pm–12am).
     </div>
-
     <div id="chart"></div>
-
-    <div class="footnote-wrap">
-      <div>Time ranges used: Morning = 6am–12pm, Afternoon = 12pm–6pm, Night = 6pm–12am.</div>
-      <div>This version uses within-platform percentages so differences in time-of-day behavior are easier to interpret.</div>
-    </div>
   </div>
 
   <div class="tooltip" id="tooltip"></div>
@@ -148,8 +128,8 @@
     const platforms = [...new Set(heatmapData.map(d => d.platform))];
 
     const margin = { top: 88, right: 70, bottom: 105, left: 205 };
-    const width = 930 - margin.left - margin.right;
-    const height = Math.max(330, platforms.length * 58);
+    const width = 860 - margin.left - margin.right;
+    const height = Math.max(320, platforms.length * 58);
 
     const svg = d3.select("#chart")
       .append("svg")
@@ -176,7 +156,7 @@
 
     const color = d3.scaleSequential()
       .domain([minPct, maxPct])
-      .interpolator(d3.interpolateRgb("#2b2b2b", "#1DB954"));
+      .interpolator(d3.interpolateRgb("#eaf3fb", "#1984c5"));
 
     const xAxis = d3.axisBottom(x);
     const xAxisG = chart.append("g")
@@ -228,12 +208,12 @@
       .attr("rx", 10)
       .attr("ry", 10)
       .attr("fill", d => color(d.pct))
-      .attr("stroke", "rgba(255,255,255,0.10)")
-      .attr("stroke-width", 1.2)
+      .attr("stroke", "#ffffff")
+      .attr("stroke-width", 1.5)
       .on("mouseover", function(event, d) {
         d3.select(this)
-          .attr("stroke", "#FFFFFF")
-          .attr("stroke-width", 2);
+          .attr("stroke", "#1f4a6a")
+          .attr("stroke-width", 2.4);
 
         tooltip.style("opacity", 1).html(
           `<strong>Platform:</strong> ${d.platform}<br>
@@ -249,8 +229,8 @@
       })
       .on("mouseout", function() {
         d3.select(this)
-          .attr("stroke", "rgba(255,255,255,0.10)")
-          .attr("stroke-width", 1.2);
+          .attr("stroke", "#ffffff")
+          .attr("stroke-width", 1.5);
         tooltip.style("opacity", 0);
       });
 
@@ -261,11 +241,10 @@
       .attr("class", "cell-label")
       .attr("x", d => x(d.time) + x.bandwidth() / 2)
       .attr("y", d => y(d.platform) + y.bandwidth() / 2)
-      .attr("fill", d => d.pct > (minPct + maxPct) / 2 ? "#FFFFFF" : "#EAEAEA")
+      .attr("fill", d => d.pct > (minPct + maxPct) / 2 ? "#ffffff" : "#333333")
       .text(d => `${d.pct}%`);
 
-    // Legend
-    const legendWidth = 240;
+    const legendWidth = 220;
     const legendHeight = 14;
     const defs = svg.append("defs");
     const gradient = defs.append("linearGradient")
@@ -296,14 +275,10 @@
       .domain([minPct, maxPct])
       .range([0, legendWidth]);
 
-    const legendAxis = d3.axisBottom(legendScale)
-      .ticks(5)
-      .tickFormat(d => d + "%");
-
     svg.append("g")
       .attr("class", "axis")
       .attr("transform", `translate(${legendX}, ${legendY + legendHeight})`)
-      .call(legendAxis);
+      .call(d3.axisBottom(legendScale).ticks(5).tickFormat(d => d + "%"));
 
     svg.append("text")
       .attr("x", legendX)
