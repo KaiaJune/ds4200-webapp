@@ -187,6 +187,8 @@ body{
 .chart-frame{
     width: 80%;
     max-width: 800px;
+    min-width: 400px;
+    flex:1;
     height: auto;
 }
 
