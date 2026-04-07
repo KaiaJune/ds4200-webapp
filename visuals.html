@@ -33,12 +33,13 @@
   <div class="chart-container">
     <h2 class="chart-title">Trends Between Age &  Top Genre</h2>
     <p class="chart-description">
-      We begin our analysis by looking at how different age groups view music genres. The chart below can be filtered to five different
+      We begin our analysis by looking at how different age groups view music genres. Below is a radar chart that displays the percentage of each age group
+      that has the listed genre as their top genre. The chart below can be filtered to five different
       age groups. With each filter, the relationship for each genre is shown.
     </p>
 
     <div class="chart-frame">
-      <iframe src="top_genre_by_age_group_2.html" 
+      <iframe src="top_genre_by_age_group.html" 
               frameborder = "0" 
               width = "100%" 
               height = "550"> </iframe>
@@ -49,7 +50,7 @@
       The chart shows their relationship is the strongest compared to all other groups. </p>
       
     <p class="chart-description" style="font-size:0.95em">
-      Inside the 18-25 age group, 14% of users had EDM as their top genre. This
+      Inside the 18-25 age group, 14.1% of users had EDM as their top genre. This
       is a higher percentage than any other age group & top genre pair, with the next highest being 12.5% of those aged 26-35 liking Jazz music.
 
     <p class="chart-description" style="font-size:0.95em">
@@ -61,11 +62,12 @@
   <div class="chart-container">
     <h2 class="chart-title">Repeat Song Rate Among Top Genres</h2>
     <p class="chart-description">
-      Next, we can analyze if more popular genres tend to have users that repeat songs most often. And, which genres tend to elicit repeat
-      song behavior.
+      Next, we can analyze how genre and age affects repeat song rate. We can compare this information to the radar chart that describes genre 
+      popularity. The chart below on the left is an array of boxplots, each corresponding to a different genre. The chart can be filtered to any 
+      age group.
     </p>
 
-    <div class="charts-row">
+    <div class="charts-row side-by-side">
     <div class="chart-frame">
       <iframe src="repeat_song_rate_by_genre.html" 
               frameborder = "0" 
@@ -74,36 +76,48 @@
       </iframe>
     </div>
     <div class="chart-frame">
-      <iframe src="top_genre_by_age_group_2.html"
+      <iframe src="top_genre_by_age_group.html"
               frameborder="0"
               width="100%"
               height="550">
       </iframe>
     </div>
     </div>
-  </div>
   
 
     <p class="chart-description" style="font-size:0.95em">
-     We begin by analyzing <b>teenagers</b>. Their top genre was Classical music. Of all of the genres, teenagers had the highest repeat song rate for EDM and country music, 
-     rather than classical. Next, looking at those aged<b>18-25</b>, their top genre was EDM and they had a very strong relationship. Despite this, the repeat song rate was 
-     highest for Metal music. Those aged <b>26-35</b> most preferred jazz music. However, the repeat song rate for jazz is actually one of the lowewst in the age group. Their
-     top repeat song rates come from R&B and Country. For the <b>36-45</b> age group, they had the highest repeat song rate for country, metal and rock. And finally, the 
-     <b>46-60</b> age group had similar repeat song rates accross the board.
+     We begin by analyzing <b>teenagers</b>. Their top genre was Classical music. Of all of the genres, teenagers had the highest median repeat song rate for Hip-Hop and Classical music. This
+     aligns with how Teens tend to most enjoy Classical music, as per the radar chart. Next, looking at those aged <b>18-25</b>, their top genre was EDM and they had a very strong relationship. 
+     Despite this, the median repeat song rate was highest in this age group for Metal music. Those aged <b>26-35</b> most preferred Jazz and R&B music. The highest median repeat song rate is for R&B. 
+      For the <b>36-45</b> age group, they had the highest repeat song rate for rock, country and Edm. Rock was this age group's second most popular genre. And finally, the <b>46-60</b> age group had 
+      similar repeat song rates accross the board. This aligns with how they didn't have a clear top genre.
     </p>
 
-    <p class="chart-description" style="font-size:0.95em">
-     One might expect the genre groups that have more fans would have a higher repeat song rate, however this has proven to not be true. Repeat song rate seems to depend on
-     the specific genre that users like. Country and metal music had generally the highest repeat song rates. This means these genres may have users repeating songs more often.
-    </p>
+    <div class="charts-row side-by-side" >
+      <div class="text-box">
+        <p>From this analysis, it is clear that repeat song rate depends on the genre and age group of the listeners. There is some similarities between repeat song rate and genre popularity, but
+          there is no clear and definitive trend. However, some genres and age groups showed a strong repeat song rate. Metal listeners aged 18-25 had the highest overall median repeat song rate at 51.02%.
+          To the right is a scatterplot showing age and repeat song rate within this age group and for metal music.</p>
 
+
+        </div>
+
+      <div class="chart-frame">
+        <iframe src="repeat_song_metal.html" 
+              frameborder = "0" 
+              width = "100%" 
+              > </iframe>
+      </div>
+
+    </div>
   </div>
 
       <!-- DEEPER FILTER VISUAL 1 -->
   <div class="chart-container">
     <h2 class="chart-title">Discover Weekly Engagement Trends</h2>
     <p class="chart-description">
-      Next, we can analyze how age and genre impacts the weekly engagement with the discover applications.
+      Next, we can analyze how age and genre impacts the weekly engagement with the discover applications. Below is a bar chart depicting discover weekly engagement accross
+      each genre. The graph can be filtered to any age group.
     </p>
 
     <div class="chart-frame" style="display: flex; justify-content: flex-start;">
@@ -121,12 +135,23 @@
       year olds. And finally, the <b>46-60</b> age group had the highest engagement among those who like Rock music. 
      </p>
 
-     <p class="chart-description" style="font-size:0.95em">
-      There appears to be no strong correlation between more popular genres and higher daily weekly engagement. There also seems to be no connection between repeat song 
-      rate and daily weekly engagement. However, within specific age groups there are genres with higher engagement. The biggest trend is that those aged 25 and under
-      who prefer Hip-Hop music engage in weekly engagement the most.
-     </p>
 
+     <div class="charts-row side-by-side" >
+      <div class="text-box">
+        <p>There appears to be no strong correlation between more popular genres and higher daily weekly engagement. There also seems to be no connection between repeat song 
+      rate and daily weekly engagement. However, within specific age groups there are genres with higher engagement. The biggest trend is that those aged 25 and under
+      who prefer Hip-Hop music engage in weekly engagement the most. The scatterplot to the right displays this idea. It shows discover weekly engagement accross ages within 
+      the 18-25 age group.</p>
+      </div>
+
+      <div class="chart-frame">
+        <iframe src="weekly_engagement_hip_hop.html" 
+              frameborder = "0" 
+              width = "100%" 
+              > </iframe>
+      </div>
+
+  </div>
   </div>
 
   <h1> Now, we will analyze how geographic location affects genre preferences. </h1>
@@ -136,7 +161,8 @@
   <div class="chart-container">
     <h2 class="chart-title">Top Genres by Country</h2>
     <p class="chart-description">
-      Next, we can analyze if geographic location has any effect on genre.
+      Next, we can analyze if geographic location has any effect on genre.The graph below is a chloropleth map, which highlights the popularity of genres
+      accross different countries.
     </p>
 
 
@@ -148,22 +174,36 @@
     </div>
 
       <p class="chart-description">
-      For each genre, there appears to be a clear trend in which geographic location is most popular. Some genres have more prominent trends than others.
-      For example, EDM is only popular in Germany.
+      This map highlights several trends. Most notably Germany shows the widest variation in genre preferences among all countries, with only 7% of users listening to Reggae as their top genre, while 13.6% prefer EDM. 
       </p>
+
+      <p class="chart-description">
+      Pop shows the greatest variation in genre, with a 5.9% difference between its highest and lowest values, followed by EDM (5.5% difference) and then Hip-Hop (5.49% difference). While Country music has the smallest range, at only 2.8% difference. 
+      </p>
+
+      
+      <p class="chart-description">
+      In the United States, Reggae and EDM are the most popular genres, while the least popular are R&B and Hip-Hop.  
+      </p>
+
+       <p class="chart-description">
+      We also explored how geographic proximity may influence top genre preferences. For EDM, Canada and the United States have the same percentage, at 11.2%, and for Rock with 9.8% for the United States and 9.5% for Canada. However, they are very 
+      different for other genres. For example, for metal the United States is 10.7% but Canada is 7.7%. The overall strongest proximity-based cluster overall is UK, France and Germany, especially for R&B, Metal, and Classical.   
+      </p>
+
     </div>
 
 
       <!-- SUBSCRIPTION TYPE VISUAL -->
   <div class="chart-container">
-    <h2 class="chart-title">Map</h2>
+    <h2 class="chart-title">Minutes Streamed per Day by Subscription Type</h2>
     <p class="chart-description">
-      This map is cool
+      How subscription type and geographic location impacts minutes streamed per day.
     </p>
 
 
       <div class="chart-frame">
-      <iframe src="minutes_streamed_by_subscription.html" 
+      <iframe src="minutes_streamed_per_day_per_subscription_type.html" 
               frameborder = "0" 
               width = "100%" 
               height = "600"> </iframe>
