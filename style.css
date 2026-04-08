@@ -27,7 +27,7 @@ body{
 .logo{
     font-size:20px;
     font-weight:600;
-    color:#1984c5;
+    color:#115f9a;
 }
 
 /* Ensure navbar links are always same color as Home */
@@ -39,7 +39,7 @@ body{
 }
 
 .navbar nav a:hover{
-    color:#1984c5;
+    color:#115f9a;
 }
 
 /* HERO SECTION */
@@ -80,7 +80,7 @@ body{
 .hero-button{
     display:inline-block;
     padding:12px 28px;
-    background:#1984c5;
+    background:#115f9a;
     color:white;
     text-decoration:none;
     border-radius:30px;
