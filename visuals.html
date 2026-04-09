@@ -6,10 +6,10 @@
 <title>Top Genres by Age - DS4200 Project</title>
 <link rel="stylesheet" href="style.css">
 <style>
-  body { font-family: 'Poppins', sans-serif; background:#f5f7fa; color:#333; margin:0; padding:20px; }
+  body { font-family: 'Poppins', sans-serif; background:#f5f7fa; color:#333; margin:0; }
 
   /* Page title */
-  h1 { text-align:center; margin-bottom:20px; color:#2a5d84; font-size:2em }
+  h1 { text-align:center; margin-bottom:20px; margin-top: 20px; color:#fff; font-size:2em }
 
 </style>
 </head>
@@ -17,7 +17,7 @@
 
 <header class="navbar">
   <div class="nav-container">
-    <div class="logo">DS4200 Project</div>
+    <div class="logo">Analyzing Global Streaming Trends</div>
     <nav>
       <a href="index.html">Home</a>
       <a href="visuals.html">Visuals</a>
@@ -26,12 +26,14 @@
   </div>
 </header>
 
-<h1> We begin by analyzing trends in genre by age group </h1>
+<div class="header-container">
+  <h1> Trends By Genre & Age Group </h1>
+</div>
 
 <main>
 <!-- AGE AND GENRE VISUALIZATION -->
   <div class="chart-container">
-    <h2 class="chart-title">Trends Between Age &  Top Genre</h2>
+    <!-- <h2 class="chart-title">Trends Between Age &  Top Genre</h2> -->
     <p class="chart-description">
       We begin our analysis by looking at how different age groups view music genres. Below is a radar chart that displays the percentage of each age group
       that has the listed genre as their top genre. The chart below can be filtered to five different
@@ -39,6 +41,8 @@
     </p>
 
     <div class="chart-frame">
+      <figcaption><b>Figure 1: </b></figcaption>
+
       <iframe src="top_genre_by_age_group.html" 
               frameborder = "0" 
               width = "100%" 
@@ -69,6 +73,7 @@
 
     <div class="charts-row side-by-side">
     <div class="chart-frame">
+      <figcaption><b>Figure 2: </b></figcaption>
       <iframe src="repeat_song_rate_by_genre.html" 
               frameborder = "0" 
               width = "100%" 
@@ -93,7 +98,12 @@
       similar repeat song rates accross the board. This aligns with how they didn't have a clear top genre.
     </p>
 
-    <div class="charts-row side-by-side" >
+    <p class="chart-description">
+                
+    </p>
+
+
+    <div class="charts-row side-by-side">
       <div class="text-box">
         <p>From this analysis, it is clear that repeat song rate depends on the genre and age group of the listeners. There is some similarities between repeat song rate and genre popularity, but
           there is no clear and definitive trend. However, some genres and age groups showed a strong repeat song rate. Metal listeners aged 18-25 had the highest overall median repeat song rate at 51.02%.
@@ -103,6 +113,8 @@
         </div>
 
       <div class="chart-frame">
+        <figcaption><b>Figure 3: </b></figcaption>
+
         <iframe src="repeat_song_metal.html" 
               frameborder = "0" 
               width = "100%" 
@@ -120,12 +132,13 @@
       each genre. The graph can be filtered to any age group.
     </p>
 
-    <div class="chart-frame" style="display: flex; justify-content: flex-start;">
+    <div class="chart-frame">
+        <figcaption style="margin-right: 10px;"><b>Figure 4:</b></figcaption>
         <iframe src="average_discover_weekly_engagement.html" 
                 frameborder = "0" 
                 width = "80%" 
                 height = "550"
-                style="border:0; margin-left: 100px;""></iframe>> 
+                style="border:0; margin-left: 80px;"></iframe>
     </div>
 
     <p class="chart-description" style="font-size:0.95em">
@@ -145,17 +158,19 @@
       </div>
 
       <div class="chart-frame">
+        <figcaption><b>Figure 5: </b></figcaption>
         <iframe src="weekly_engagement_hip_hop.html" 
               frameborder = "0" 
-              width = "100%" 
-              > </iframe>
+              width = "100%"> 
+            </iframe>
       </div>
 
   </div>
   </div>
 
-  <h1> Now, we will analyze how geographic location affects genre preferences. </h1>
-
+  <div class="header-container">
+    <h1 style = "font-size:1.5em"> Analyzing Geographic Location & Genre Preferences </h1> 
+  </div>
 
   <!-- MAP VISUAL -->
   <div class="chart-container">
@@ -167,7 +182,8 @@
 
 
     <div class="chart-frame">
-      <iframe src="top_genre_by_country_map2.html" 
+      <figcaption><b>Figure 6: </b></figcaption>
+      <iframe src="top_genre_by_country_map.html" 
               frameborder = "0" 
               width = "100%" 
               height = "550"> </iframe>
@@ -192,23 +208,6 @@
       </p>
 
     </div>
-
-
-      <!-- SUBSCRIPTION TYPE VISUAL -->
-  <div class="chart-container">
-    <h2 class="chart-title">Minutes Streamed per Day by Subscription Type</h2>
-    <p class="chart-description">
-      How subscription type and geographic location impacts minutes streamed per day.
-    </p>
-
-
-      <div class="chart-frame">
-      <iframe src="minutes_streamed_per_day_per_subscription_type.html" 
-              frameborder = "0" 
-              width = "100%" 
-              height = "600"> </iframe>
-    </div>
-  </div>
 
 </main>
 
