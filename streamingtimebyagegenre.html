@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Streaming Time of Day by Genre</title>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <style>
+    body {
+      font-family: 'Poppins', Arial, sans-serif;
+      margin: 0;
+      background: #f5f7fa;
+      color: #333;
+    }
+
+    .chart-container {
+      width: 100%;
+      max-width: 980px;
+      margin: 40px auto;
+      padding: 24px;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+    }
+
+    .chart-title {
+      text-align: center;
+      margin: 0 0 10px 0;
+      color: #333;
+    }
+
+    .chart-description {
+      text-align: center;
+      width: 82%;
+      margin: 0 auto 18px;
+      color: #555;
+      line-height: 1.6;
+    }
+
+    .controls {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+    }
+
+    .controls label {
+      font-weight: 600;
+      color: #333;
+    }
+
+    .controls select {
+      padding: 8px 12px;
+      border-radius: 8px;
+      border: 1px solid rgba(0,0,0,0.15);
+      background: #fff;
+      font-size: 14px;
+      color: #333;
+    }
+
+    .helper-note {
+      width: 82%;
+      margin: 0 auto 16px;
+      color: #555;
+      font-size: 0.95rem;
+      line-height: 1.5;
+      background: #eef6fc;
+      border-left: 4px solid #1984c5;
+      border-radius: 8px;
+      padding: 12px 14px;
+    }
+
+    #chart {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+    }
+
+    .tooltip {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+      background: white;
+      color: #333;
+      border: 1px solid rgba(0,0,0,0.12);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+      padding: 10px 12px;
+      border-radius: 8px;
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .axis path,
+    .axis line {
+      stroke: rgba(0,0,0,0.18);
+    }
+
+    .axis text {
+      fill: #333;
+      font-size: 13px;
+    }
+
+    .axis-label {
+      fill: #333;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .cell-label {
+      font-size: 11px;
+      text-anchor: middle;
+      dominant-baseline: middle;
+      pointer-events: none;
+      font-weight: 600;
+    }
+
+    .legend-label {
+      fill: #555;
+      font-size: 12px;
+    }
+
+    .footnote {
+      text-align: center;
+      color: #555;
+      font-size: 13px;
+      margin-top: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="chart-container">
+    <h2 class="chart-title">Streaming Time of Day by Genre</h2>
+    <p class="chart-description">
+      This heatmap compares when listeners are most active across music genres. Use the age-group filter
+      to see how morning, afternoon, and nighttime listening patterns shift across different groups.
+    </p>
+
+    <div class="controls">
+      <label for="ageFilter">Age Group:</label>
+      <select id="ageFilter"></select>
+    </div>
+
+    <div class="helper-note">
+      <strong>How to read this:</strong> darker blue cells indicate a larger share of listeners for that genre during that time of day.
+      Percentages are calculated within each genre for the selected age group, which makes differences easier to compare.
+    </div>
+
+    <div id="chart"></div>
+    <div class="footnote">Time ranges: Morning = 6am–12pm, Afternoon = 12pm–6pm, Night = 6pm–12am.</div>
+  </div>
+
+  <div class="tooltip" id="tooltip"></div>
+
+  <script>
+    d3.csv("Global_Music_Streaming_Listener_Preferences.csv").then(rawData => {
+      const timeMap = {
+        "Morning": "Morning\n(6am–12pm)",
+        "Afternoon": "Afternoon\n(12pm–6pm)",
+        "Night": "Night\n(6pm–12am)"
+      };
+
+      const ageGroups = ["Under 18", "18–24", "25–34", "35–44", "45–54", "55+"];
+
+      function getAgeGroup(age) {
+        if (age < 18) return "Under 18";
+        if (age <= 24) return "18–24";
+        if (age <= 34) return "25–34";
+        if (age <= 44) return "35–44";
+        if (age <= 54) return "45–54";
+        return "55+";
+      }
+
+      const cleaned = rawData
+        .map(d => ({
+          age: +d["Age"],
+          genre: (d["Top Genre"] || "").trim(),
+          time: timeMap[(d["Listening Time (Morning/Afternoon/Night)"] || "").trim()]
+        }))
+        .filter(d => !isNaN(d.age) && d.genre && d.time)
+        .map(d => ({
+          ...d,
+          age_group: getAgeGroup(d.age)
+        }));
+
+      const timeOrder = [
+        "Morning\n(6am–12pm)",
+        "Afternoon\n(12pm–6pm)",
+        "Night\n(6pm–12am)"
+      ];
+
+      const select = d3.select("#ageFilter");
+      ageGroups.forEach(group => {
+        select.append("option").attr("value", group).text(group);
+      });
+
+      const margin = { top: 90, right: 70, bottom: 105, left: 165 };
+      const width = 860 - margin.left - margin.right;
+
+      const svg = d3.select("#chart")
+        .append("svg")
+        .attr("width", width + margin.left + margin.right);
+
+      const chart = svg.append("g")
+        .attr("transform", `translate(${margin.left},${margin.top})`);
+
+      const tooltip = d3.select("#tooltip");
+
+      function render(ageGroup) {
+        const filtered = cleaned.filter(d => d.age_group === ageGroup);
+        const genres = Array.from(new Set(filtered.map(d => d.genre))).sort();
+        const height = Math.max(340, genres.length * 42);
+
+        svg.attr("height", height + margin.top + margin.bottom);
+        chart.selectAll("*").remove();
+        svg.selectAll(".legend-group").remove();
+
+        const records = [];
+        genres.forEach(genre => {
+          const genreSubset = filtered.filter(d => d.genre === genre);
+          const genreTotal = genreSubset.length;
+
+          timeOrder.forEach(time => {
+            const value = genreSubset.filter(d => d.time === time).length;
+            records.push({
+              age_group: ageGroup,
+              genre,
+              time,
+              value,
+              pct: genreTotal ? +(value / genreTotal * 100).toFixed(1) : 0
+            });
+          });
+        });
+
+        const x = d3.scaleBand()
+          .domain(timeOrder)
+          .range([0, width])
+          .padding(0.10);
+
+        const y = d3.scaleBand()
+          .domain(genres)
+          .range([0, height])
+          .padding(0.10);
+
+        const minPct = d3.min(records, d => d.pct);
+        const maxPct = d3.max(records, d => d.pct);
+
+        const color = d3.scaleSequential()
+          .domain([minPct, maxPct])
+          .interpolator(d3.interpolateRgb("#eaf3fb", "#1984c5"));
+
+        const xAxis = d3.axisBottom(x);
+        const xAxisG = chart.append("g")
+          .attr("class", "axis")
+          .attr("transform", `translate(0,${height})`)
+          .call(xAxis);
+
+        xAxisG.selectAll(".tick text")
+          .each(function(d) {
+            const text = d3.select(this);
+            const parts = d.split("\n");
+            text.text(null);
+            parts.forEach((part, i) => {
+              text.append("tspan")
+                .attr("x", 0)
+                .attr("dy", i === 0 ? 0 : 15)
+                .text(part);
+            });
+          });
+
+        chart.append("g")
+          .attr("class", "axis")
+          .call(d3.axisLeft(y));
+
+        chart.append("text")
+          .attr("class", "axis-label")
+          .attr("x", width / 2)
+          .attr("y", height + 78)
+          .attr("text-anchor", "middle")
+          .text("Time of Day");
+
+        chart.append("text")
+          .attr("class", "axis-label")
+          .attr("transform", "rotate(-90)")
+          .attr("x", -height / 2)
+          .attr("y", -130)
+          .attr("text-anchor", "middle")
+          .text("Top Genre");
+
+        chart.selectAll("rect.cell")
+          .data(records)
+          .enter()
+          .append("rect")
+          .attr("class", "cell")
+          .attr("x", d => x(d.time))
+          .attr("y", d => y(d.genre))
+          .attr("width", x.bandwidth())
+          .attr("height", y.bandwidth())
+          .attr("rx", 8)
+          .attr("ry", 8)
+          .attr("fill", d => color(d.pct))
+          .attr("stroke", "#ffffff")
+          .attr("stroke-width", 1.5)
+          .on("mouseover", function(event, d) {
+            d3.select(this)
+              .attr("stroke", "#1f4a6a")
+              .attr("stroke-width", 2.4);
+
+            tooltip.style("opacity", 1).html(
+              `<strong>Age Group:</strong> ${d.age_group}<br>
+               <strong>Genre:</strong> ${d.genre}<br>
+               <strong>Time of Day:</strong> ${d.time.replace("\\n"," ")}<br>
+               <strong>Listener Count:</strong> ${d.value}<br>
+               <strong>Share within genre:</strong> ${d.pct}%`
+            );
+          })
+          .on("mousemove", function(event) {
+            tooltip
+              .style("left", (event.pageX + 12) + "px")
+              .style("top", (event.pageY - 28) + "px");
+          })
+          .on("mouseout", function() {
+            d3.select(this)
+              .attr("stroke", "#ffffff")
+              .attr("stroke-width", 1.5);
+            tooltip.style("opacity", 0);
+          });
+
+        chart.selectAll("text.cell-label")
+          .data(records)
+          .enter()
+          .append("text")
+          .attr("class", "cell-label")
+          .attr("x", d => x(d.time) + x.bandwidth() / 2)
+          .attr("y", d => y(d.genre) + y.bandwidth() / 2)
+          .attr("fill", d => d.pct > (minPct + maxPct) / 2 ? "#ffffff" : "#333333")
+          .text(d => `${d.pct}%`);
+
+        const legendWidth = 220;
+        const legendHeight = 14;
+        const defs = svg.select("defs").empty() ? svg.append("defs") : svg.select("defs");
+        defs.selectAll("*").remove();
+
+        const gradient = defs.append("linearGradient")
+          .attr("id", "legend-gradient")
+          .attr("x1", "0%").attr("x2", "100%")
+          .attr("y1", "0%").attr("y2", "0%");
+
+        d3.range(0, 1.01, 0.1).forEach(stop => {
+          const val = minPct + stop * (maxPct - minPct);
+          gradient.append("stop")
+            .attr("offset", `${stop * 100}%`)
+            .attr("stop-color", color(val));
+        });
+
+        const legendX = margin.left + width - legendWidth;
+        const legendY = 28;
+
+        const legend = svg.append("g").attr("class", "legend-group");
+
+        legend.append("rect")
+          .attr("x", legendX)
+          .attr("y", legendY)
+          .attr("width", legendWidth)
+          .attr("height", legendHeight)
+          .attr("rx", 7)
+          .attr("ry", 7)
+          .attr("fill", "url(#legend-gradient)");
+
+        const legendScale = d3.scaleLinear()
+          .domain([minPct, maxPct])
+          .range([0, legendWidth]);
+
+        legend.append("g")
+          .attr("class", "axis")
+          .attr("transform", `translate(${legendX}, ${legendY + legendHeight})`)
+          .call(d3.axisBottom(legendScale).ticks(5).tickFormat(d => d + "%"));
+
+        legend.append("text")
+          .attr("x", legendX)
+          .attr("y", legendY - 8)
+          .attr("class", "legend-label")
+          .text("Lower to Higher Share of Listeners");
+      }
+
+      select.on("change", function() {
+        render(this.value);
+      });
+
+      render("18–24");
+      select.property("value", "18–24");
+    });
+  </script>
+</body>
+</html>
