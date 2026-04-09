@@ -1,376 +1,359 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Streaming Time of Day by Genre</title>
-  <script src="https://d3js.org/d3.v7.min.js"></script>
-  <style>
-    body {
-      font-family: 'Poppins', sans-serif;
-      margin: 0;
-      background: transparent;
-      color: #333;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Streaming Time of Day by Genre</title>
+<script src="https://d3js.org/d3.v7.min.js"></script>
 
-    .embed-container {
-      width: 100%;
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 8px 0 0 0;
-      box-sizing: border-box;
-    }
+<style>
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  color: #333;
+  background: transparent;
+}
 
-    .controls {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 14px;
-      flex-wrap: wrap;
-    }
+.embed-container {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 4px 0 0 0;
+  box-sizing: border-box;
+}
 
-    .controls label {
-      font-weight: 600;
-      color: #333;
-      font-size: 15px;
-    }
+.controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 6px;
+  flex-wrap: wrap;
+}
 
-    .controls select {
-      padding: 8px 12px;
-      border-radius: 8px;
-      border: 1px solid rgba(0, 0, 0, 0.15);
-      background: #fff;
-      font-size: 14px;
-      color: #333;
-    }
+.controls label {
+  font-weight: 600;
+  font-size: 14px;
+}
 
-    #chart {
-      width: 100%;
-      display: flex;
-      justify-content: center;
-      overflow-x: auto;
-    }
+.controls select {
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid rgba(0,0,0,0.15);
+  background: #fff;
+  font-size: 13px;
+  color: #333;
+}
 
-    .tooltip {
-      position: absolute;
-      opacity: 0;
-      pointer-events: none;
-      background: white;
-      color: #333;
-      border: 1px solid rgba(0, 0, 0, 0.12);
-      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
-      padding: 10px 12px;
-      border-radius: 8px;
-      font-size: 13px;
-      line-height: 1.45;
-    }
+#chart {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  overflow-x: auto;
+}
 
-    .axis path,
-    .axis line {
-      stroke: rgba(0, 0, 0, 0.18);
-    }
+.tooltip {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+  background: white;
+  color: #333;
+  border: 1px solid rgba(0,0,0,0.12);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+  padding: 8px 10px;
+  border-radius: 8px;
+  font-size: 12px;
+  line-height: 1.4;
+}
 
-    .axis text {
-      fill: #333;
-      font-size: 13px;
-    }
+.axis path,
+.axis line {
+  stroke: rgba(0,0,0,0.18);
+}
 
-    .axis-label {
-      fill: #333;
-      font-size: 14px;
-      font-weight: 600;
-    }
+.axis text {
+  fill: #333;
+  font-size: 12px;
+}
 
-    .cell-label {
-      font-size: 11px;
-      text-anchor: middle;
-      dominant-baseline: middle;
-      pointer-events: none;
-      font-weight: 600;
-    }
+.axis-label {
+  fill: #333;
+  font-size: 13px;
+  font-weight: 600;
+}
 
-    .legend-label {
-      fill: #555;
-      font-size: 12px;
-    }
+.cell-label {
+  font-size: 10px;
+  text-anchor: middle;
+  dominant-baseline: middle;
+  pointer-events: none;
+  font-weight: 600;
+}
 
-    .error-message {
-      text-align: center;
-      color: #b00020;
-      font-weight: 600;
-      padding: 24px;
-    }
-  </style>
+.legend-label {
+  fill: #555;
+  font-size: 11px;
+}
+
+.error-message {
+  text-align: center;
+  color: #b00020;
+  font-weight: 600;
+  padding: 20px;
+}
+</style>
 </head>
 <body>
-  <div class="embed-container">
-    <div class="controls">
-      <label for="ageFilter">Age Group:</label>
-      <select id="ageFilter"></select>
-    </div>
 
-    <div id="chart"></div>
+<div class="embed-container">
+  <div class="controls">
+    <label for="ageFilter">Age Group:</label>
+    <select id="ageFilter"></select>
   </div>
 
-  <div class="tooltip" id="tooltip"></div>
+  <div id="chart"></div>
+</div>
 
-  <script>
-    const csvUrl = "https://raw.githubusercontent.com/KaiaJune/ds4200-webapp/main/ds4200_global_streaming_cleaned.csv";
+<div class="tooltip" id="tooltip"></div>
 
-    const ageGroups = ["All Ages", "Teen", "18-25", "26-35", "36-45", "46-60"];
-    const timeOrder = [
-      "Morning\n(6am to 12pm)",
-      "Afternoon\n(12pm to 6pm)",
-      "Night\n(6pm to 12am)"
-    ];
+<script>
+const csvUrl = "https://raw.githubusercontent.com/KaiaJune/ds4200-webapp/main/ds4200_global_streaming_cleaned.csv";
 
-    const timeMap = {
-      "Morning": "Morning\n(6am to 12pm)",
-      "Afternoon": "Afternoon\n(12pm to 6pm)",
-      "Night": "Night\n(6pm to 12am)"
-    };
+const ageGroups = ["All Ages", "Teen", "18-25", "26-35", "36-45", "46-60"];
 
-    function getAgeGroup(age) {
-      if (age < 18) return "Teen";
-      if (age <= 25) return "18-25";
-      if (age <= 35) return "26-35";
-      if (age <= 45) return "36-45";
-      if (age <= 60) return "46-60";
-      return null;
-    }
+const timeOrder = [
+  "Morning",
+  "Afternoon",
+  "Night"
+];
 
-    d3.csv(csvUrl).then(rawData => {
-      const cleaned = rawData
-        .map(d => {
-          const age = +d["Age"];
-          const genre = (d["Top Genre"] || "").trim();
-          const rawTime = (d["Listening Time (Morning/Afternoon/Night)"] || "").trim();
-          const ageGroup = getAgeGroup(age);
+function getAgeGroup(age) {
+  if (age < 18) return "Teen";
+  if (age <= 25) return "18-25";
+  if (age <= 35) return "26-35";
+  if (age <= 45) return "36-45";
+  if (age <= 60) return "46-60";
+  return null;
+}
 
-          return {
-            age,
-            genre,
-            time: timeMap[rawTime],
-            age_group: ageGroup
-          };
-        })
-        .filter(d => !isNaN(d.age) && d.genre && d.time && d.age_group);
+d3.csv(csvUrl).then(data => {
+  const cleaned = data.map(d => ({
+    age: +d["Age"],
+    genre: (d["Top Genre"] || "").trim(),
+    time: (d["Listening Time (Morning/Afternoon/Night)"] || "").trim(),
+    age_group: getAgeGroup(+d["Age"])
+  })).filter(d => d.genre && d.time && d.age_group);
 
-      const select = d3.select("#ageFilter");
-      ageGroups.forEach(group => {
-        select.append("option").attr("value", group).text(group);
-      });
+  const select = d3.select("#ageFilter");
+  ageGroups.forEach(group => {
+    select.append("option")
+      .attr("value", group)
+      .text(group);
+  });
 
-      const margin = { top: 68, right: 25, bottom: 105, left: 135 };
-      const width = 760 - margin.left - margin.right;
-      
+  const margin = { top: 28, right: 20, bottom: 62, left: 120 };
+  const width = 700 - margin.left - margin.right;
 
-      const svg = d3.select("#chart")
-        .append("svg")
-        .attr("width", width + margin.left + margin.right);
+  const svg = d3.select("#chart")
+    .append("svg")
+    .attr("width", width + margin.left + margin.right);
 
-      const chart = svg.append("g")
-        .attr("transform", `translate(${margin.left},${margin.top})`);
+  const chart = svg.append("g")
+    .attr("transform", `translate(${margin.left},${margin.top})`);
 
-      const tooltip = d3.select("#tooltip");
+  const tooltip = d3.select("#tooltip");
 
-      function render(ageGroup) {
-        const filtered = ageGroup === "All Ages"
-          ? cleaned
-          : cleaned.filter(d => d.age_group === ageGroup);
+  function render(group) {
+    const filtered = group === "All Ages"
+      ? cleaned
+      : cleaned.filter(d => d.age_group === group);
 
-        const genres = Array.from(new Set(filtered.map(d => d.genre))).sort();
-        const height = Math.max(340, genres.length * 44);
+    const genres = [...new Set(filtered.map(d => d.genre))].sort();
 
-        svg.attr("height", height + margin.top + margin.bottom);
-        chart.selectAll("*").remove();
-        svg.selectAll(".legend-group").remove();
-        svg.selectAll("defs").remove();
+    const rowHeight = 28;
+    const height = Math.max(260, genres.length * rowHeight);
 
-        const records = [];
-        genres.forEach(genre => {
-          const genreSubset = filtered.filter(d => d.genre === genre);
-          const genreTotal = genreSubset.length;
+    svg.attr("height", height + margin.top + margin.bottom);
+    chart.selectAll("*").remove();
+    svg.selectAll(".legend-group").remove();
+    svg.selectAll("defs").remove();
 
-          timeOrder.forEach(time => {
-            const value = genreSubset.filter(d => d.time === time).length;
-            records.push({
-              age_group: ageGroup,
-              genre,
-              time,
-              value,
-              pct: genreTotal ? +(value / genreTotal * 100).toFixed(1) : 0
-            });
-          });
+    const matrix = [];
+
+    genres.forEach(genre => {
+      const subset = filtered.filter(d => d.genre === genre);
+      const total = subset.length;
+
+      timeOrder.forEach(time => {
+        const val = subset.filter(d => d.time === time).length;
+        matrix.push({
+          genre: genre,
+          time: time,
+          value: val,
+          pct: total ? +(val / total * 100).toFixed(1) : 0,
+          age_group: group
         });
-
-        const x = d3.scaleBand()
-          .domain(timeOrder)
-          .range([0, width])
-          .padding(0.12);
-
-        const y = d3.scaleBand()
-          .domain(genres)
-          .range([0, height])
-          .padding(0.10);
-
-        const minPct = d3.min(records, d => d.pct) ?? 0;
-        const maxPct = d3.max(records, d => d.pct) ?? 100;
-
-        const color = d3.scaleSequential()
-          .domain([minPct, maxPct])
-          .interpolator(d3.interpolateRgb("#eaf3fb", "#1984c5"));
-
-        const xAxis = d3.axisBottom(x);
-        const xAxisG = chart.append("g")
-          .attr("class", "axis")
-          .attr("transform", `translate(0,${height})`)
-          .call(xAxis);
-
-        xAxisG.selectAll(".tick text")
-          .each(function(d) {
-            const text = d3.select(this);
-            const parts = d.split("\n");
-            text.text(null);
-            parts.forEach((part, i) => {
-              text.append("tspan")
-                .attr("x", 0)
-                .attr("dy", i === 0 ? 0 : 16)
-                .text(part);
-            });
-          });
-
-        chart.append("g")
-          .attr("class", "axis")
-          .call(d3.axisLeft(y));
-
-        chart.append("text")
-          .attr("class", "axis-label")
-          .attr("x", width / 2)
-          .attr("y", height + 84)
-          .attr("text-anchor", "middle")
-          .text("Time of Day");
-
-        chart.append("text")
-          .attr("class", "axis-label")
-          .attr("transform", "rotate(-90)")
-          .attr("x", -height / 2)
-          .attr("y", -95)
-          .attr("text-anchor", "middle")
-          .text("Top Genre");
-
-        chart.selectAll("rect.cell")
-          .data(records)
-          .enter()
-          .append("rect")
-          .attr("class", "cell")
-          .attr("x", d => x(d.time))
-          .attr("y", d => y(d.genre))
-          .attr("width", x.bandwidth())
-          .attr("height", y.bandwidth())
-          .attr("rx", 8)
-          .attr("ry", 8)
-          .attr("fill", d => color(d.pct))
-          .attr("stroke", "#ffffff")
-          .attr("stroke-width", 1.5)
-          .on("mouseover", function(event, d) {
-            d3.select(this)
-              .attr("stroke", "#1f4a6a")
-              .attr("stroke-width", 2.4);
-
-            tooltip.style("opacity", 1).html(
-              `<strong>Age Group:</strong> ${d.age_group}<br>
-               <strong>Genre:</strong> ${d.genre}<br>
-               <strong>Time of Day:</strong> ${d.time.replace("\\n", " ")}<br>
-               <strong>Listener Count:</strong> ${d.value}<br>
-               <strong>Share within genre:</strong> ${d.pct}%`
-            );
-          })
-          .on("mousemove", function(event) {
-            tooltip
-              .style("left", (event.pageX + 12) + "px")
-              .style("top", (event.pageY - 28) + "px");
-          })
-          .on("mouseout", function() {
-            d3.select(this)
-              .attr("stroke", "#ffffff")
-              .attr("stroke-width", 1.5);
-            tooltip.style("opacity", 0);
-          });
-
-        chart.selectAll("text.cell-label")
-          .data(records)
-          .enter()
-          .append("text")
-          .attr("class", "cell-label")
-          .attr("x", d => x(d.time) + x.bandwidth() / 2)
-          .attr("y", d => y(d.genre) + y.bandwidth() / 2)
-          .attr("fill", d => d.pct > (minPct + maxPct) / 2 ? "#ffffff" : "#333333")
-          .text(d => `${d.pct}%`);
-
-        const legendWidth = 165;
-        const legendHeight = 13;
-        const defs = svg.append("defs");
-
-        const gradient = defs.append("linearGradient")
-          .attr("id", "legend-gradient")
-          .attr("x1", "0%")
-          .attr("x2", "100%")
-          .attr("y1", "0%")
-          .attr("y2", "0%");
-
-        d3.range(0, 1.01, 0.1).forEach(stop => {
-          const val = minPct + stop * (maxPct - minPct);
-          gradient.append("stop")
-            .attr("offset", `${stop * 100}%`)
-            .attr("stop-color", color(val));
-        });
-
-        const legendX = width - legendWidth - 20;
-        const legendY = -35;
-        const legendWidth = 140;
-
-        const legend = svg.append("g").attr("class", "legend-group");
-
-        legend.append("text")
-          .attr("x", legendX)
-          .attr("y", legendY - 8)
-          .attr("class", "legend-label")
-          .text("Lower to Higher Share");
-
-        legend.append("rect")
-          .attr("x", legendX)
-          .attr("y", legendY)
-          .attr("width", legendWidth)
-          .attr("height", legendHeight)
-          .attr("rx", 7)
-          .attr("ry", 7)
-          .attr("fill", "url(#legend-gradient)");
-
-        const legendScale = d3.scaleLinear()
-          .domain([minPct, maxPct])
-          .range([0, legendWidth]);
-
-        legend.append("g")
-          .attr("class", "axis")
-          .attr("transform", `translate(${legendX}, ${legendY + legendHeight})`)
-          .call(d3.axisBottom(legendScale).ticks(4).tickFormat(d => d + "%"));
-      }
-
-      select.on("change", function() {
-        render(this.value);
       });
-
-      render("All Ages");
-      select.property("value", "All Ages");
-    }).catch(error => {
-      console.error("Error loading CSV:", error);
-      d3.select("#chart")
-        .append("div")
-        .attr("class", "error-message")
-        .text("Unable to load the dataset. Double check the CSV path.");
     });
-  </script>
+
+    const x = d3.scaleBand()
+      .domain(timeOrder)
+      .range([0, width])
+      .padding(0.12);
+
+    const y = d3.scaleBand()
+      .domain(genres)
+      .range([0, height])
+      .padding(0.08);
+
+    const minPct = d3.min(matrix, d => d.pct) ?? 0;
+    const maxPct = d3.max(matrix, d => d.pct) ?? 100;
+
+    const color = d3.scaleSequential()
+      .domain([minPct, maxPct])
+      .interpolator(d3.interpolateRgb("#eaf3fb", "#1984c5"));
+
+    chart.append("g")
+      .attr("class", "axis")
+      .attr("transform", `translate(0,${height})`)
+      .call(d3.axisBottom(x));
+
+    chart.append("g")
+      .attr("class", "axis")
+      .call(d3.axisLeft(y));
+
+    chart.append("text")
+      .attr("class", "axis-label")
+      .attr("x", width / 2)
+      .attr("y", height + 42)
+      .attr("text-anchor", "middle")
+      .text("Time of Day");
+
+    chart.append("text")
+      .attr("class", "axis-label")
+      .attr("transform", "rotate(-90)")
+      .attr("x", -height / 2)
+      .attr("y", -95)
+      .attr("text-anchor", "middle")
+      .text("Top Genre");
+
+    chart.selectAll("rect.cell")
+      .data(matrix)
+      .enter()
+      .append("rect")
+      .attr("class", "cell")
+      .attr("x", d => x(d.time))
+      .attr("y", d => y(d.genre))
+      .attr("width", x.bandwidth())
+      .attr("height", y.bandwidth())
+      .attr("rx", 6)
+      .attr("ry", 6)
+      .attr("fill", d => color(d.pct))
+      .attr("stroke", "#ffffff")
+      .attr("stroke-width", 1.2)
+      .on("mouseover", function(event, d) {
+        d3.select(this)
+          .attr("stroke", "#1f4a6a")
+          .attr("stroke-width", 2);
+
+        tooltip.style("opacity", 1).html(
+          `<strong>Age Group:</strong> ${d.age_group}<br>
+           <strong>Genre:</strong> ${d.genre}<br>
+           <strong>Time:</strong> ${d.time}<br>
+           <strong>Count:</strong> ${d.value}<br>
+           <strong>Share:</strong> ${d.pct}%`
+        );
+      })
+      .on("mousemove", function(event) {
+        tooltip
+          .style("left", (event.pageX + 10) + "px")
+          .style("top", (event.pageY - 20) + "px");
+      })
+      .on("mouseout", function() {
+        d3.select(this)
+          .attr("stroke", "#ffffff")
+          .attr("stroke-width", 1.2);
+        tooltip.style("opacity", 0);
+      });
+
+    chart.selectAll("text.cell-label")
+      .data(matrix)
+      .enter()
+      .append("text")
+      .attr("class", "cell-label")
+      .attr("x", d => x(d.time) + x.bandwidth() / 2)
+      .attr("y", d => y(d.genre) + y.bandwidth() / 2)
+      .attr("fill", d => d.pct > (minPct + maxPct) / 2 ? "#ffffff" : "#333333")
+      .text(d => `${d.pct}%`);
+
+    const legendWidth = 110;
+    const legendHeight = 8;
+    const legendX = width - legendWidth - 8;
+    const legendY = -18;
+
+    const defs = svg.append("defs");
+
+    const gradient = defs.append("linearGradient")
+      .attr("id", "legend-gradient")
+      .attr("x1", "0%")
+      .attr("x2", "100%")
+      .attr("y1", "0%")
+      .attr("y2", "0%");
+
+    d3.range(0, 1.01, 0.2).forEach(stop => {
+      const val = minPct + stop * (maxPct - minPct);
+      gradient.append("stop")
+        .attr("offset", `${stop * 100}%`)
+        .attr("stop-color", color(val));
+    });
+
+    const legend = svg.append("g")
+      .attr("class", "legend-group")
+      .attr("transform", `translate(${margin.left},0)`);
+
+    legend.append("text")
+      .attr("x", legendX)
+      .attr("y", legendY - 4)
+      .attr("class", "legend-label")
+      .text("Share");
+
+    legend.append("rect")
+      .attr("x", legendX)
+      .attr("y", legendY)
+      .attr("width", legendWidth)
+      .attr("height", legendHeight)
+      .attr("rx", 4)
+      .attr("ry", 4)
+      .attr("fill", "url(#legend-gradient)");
+
+    legend.append("text")
+      .attr("x", legendX)
+      .attr("y", legendY + 18)
+      .attr("class", "legend-label")
+      .text(Math.round(minPct) + "%");
+
+    legend.append("text")
+      .attr("x", legendX + legendWidth)
+      .attr("y", legendY + 18)
+      .attr("text-anchor", "end")
+      .attr("class", "legend-label")
+      .text(Math.round(maxPct) + "%");
+  }
+
+  select.on("change", function() {
+    render(this.value);
+  });
+
+  render("All Ages");
+  select.property("value", "All Ages");
+}).catch(error => {
+  console.error("Error loading CSV:", error);
+  d3.select("#chart")
+    .append("div")
+    .attr("class", "error-message")
+    .text("Unable to load the dataset. Double check the CSV path.");
+});
+</script>
+
 </body>
 </html>
