@@ -127,14 +127,21 @@
       font-size: 13px;
       margin-top: 8px;
     }
+
+    .error-message {
+      text-align: center;
+      color: #b00020;
+      font-weight: 600;
+      padding: 20px;
+    }
   </style>
 </head>
 <body>
   <div class="chart-container">
     <h2 class="chart-title">Streaming Time of Day by Genre</h2>
+
     <p class="chart-description">
-      This heatmap compares when listeners are most active across music genres. Use the age-group filter
-      to see how morning, afternoon, and nighttime listening patterns shift across different groups.
+      This heatmap shows how streaming activity varies across music genres and times of day, with an age group filter for comparison. The x axis represents morning, afternoon, and night, while the y axis shows the top genres. Each cell displays the percentage of listeners within that genre who are most active during that time period.
     </p>
 
     <div class="controls">
@@ -143,32 +150,33 @@
     </div>
 
     <div class="helper-note">
-      <strong>How to read this:</strong> darker blue cells indicate a larger share of listeners for that genre during that time of day.
-      Percentages are calculated within each genre for the selected age group, which makes differences easier to compare.
+      <strong>Key insight:</strong> Nighttime is the most dominant listening period across many genres, especially for younger users. Patterns also shift across age groups, showing that when people listen depends on both genre and demographic behavior.
     </div>
 
     <div id="chart"></div>
-    <div class="footnote">Time ranges: Morning = 6am–12pm, Afternoon = 12pm–6pm, Night = 6pm–12am.</div>
+    <div class="footnote">Time ranges: Morning = 6am to 12pm, Afternoon = 12pm to 6pm, Night = 6pm to 12am.</div>
   </div>
 
   <div class="tooltip" id="tooltip"></div>
 
   <script>
-    d3.csv("Global_Music_Streaming_Listener_Preferences.csv").then(rawData => {
+    const csvUrl = "https://raw.githubusercontent.com/KaiaJune/ds4200-webapp/main/ds4200_global_streaming_cleaned.csv";
+
+    d3.csv(csvUrl).then(rawData => {
       const timeMap = {
-        "Morning": "Morning\n(6am–12pm)",
-        "Afternoon": "Afternoon\n(12pm–6pm)",
-        "Night": "Night\n(6pm–12am)"
+        "Morning": "Morning\n(6am to 12pm)",
+        "Afternoon": "Afternoon\n(12pm to 6pm)",
+        "Night": "Night\n(6pm to 12am)"
       };
 
-      const ageGroups = ["Under 18", "18–24", "25–34", "35–44", "45–54", "55+"];
+      const ageGroups = ["Under 18", "18 to 24", "25 to 34", "35 to 44", "45 to 54", "55+"];
 
       function getAgeGroup(age) {
         if (age < 18) return "Under 18";
-        if (age <= 24) return "18–24";
-        if (age <= 34) return "25–34";
-        if (age <= 44) return "35–44";
-        if (age <= 54) return "45–54";
+        if (age <= 24) return "18 to 24";
+        if (age <= 34) return "25 to 34";
+        if (age <= 44) return "35 to 44";
+        if (age <= 54) return "45 to 54";
         return "55+";
       }
 
@@ -185,9 +193,9 @@
         }));
 
       const timeOrder = [
-        "Morning\n(6am–12pm)",
-        "Afternoon\n(12pm–6pm)",
-        "Night\n(6pm–12am)"
+        "Morning\n(6am to 12pm)",
+        "Afternoon\n(12pm to 6pm)",
+        "Night\n(6pm to 12am)"
       ];
 
       const select = d3.select("#ageFilter");
@@ -259,7 +267,7 @@
         xAxisG.selectAll(".tick text")
           .each(function(d) {
             const text = d3.select(this);
-            const parts = d.split("\n");
+            const parts = d.split("\\n");
             text.text(null);
             parts.forEach((part, i) => {
               text.append("tspan")
@@ -344,8 +352,10 @@
 
         const gradient = defs.append("linearGradient")
           .attr("id", "legend-gradient")
-          .attr("x1", "0%").attr("x2", "100%")
-          .attr("y1", "0%").attr("y2", "0%");
+          .attr("x1", "0%")
+          .attr("x2", "100%")
+          .attr("y1", "0%")
+          .attr("y2", "0%");
 
         d3.range(0, 1.01, 0.1).forEach(stop => {
           const val = minPct + stop * (maxPct - minPct);
@@ -388,8 +398,14 @@
         render(this.value);
       });
 
-      render("18–24");
-      select.property("value", "18–24");
+      render("18 to 24");
+      select.property("value", "18 to 24");
+    }).catch(error => {
+      console.error("Error loading CSV:", error);
+      d3.select("#chart")
+        .append("div")
+        .attr("class", "error-message")
+        .text("Unable to load the dataset. Double check the GitHub CSV path or column names.");
     });
   </script>
 </body>
