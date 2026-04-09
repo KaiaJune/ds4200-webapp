@@ -9,33 +9,16 @@
     body {
       font-family: 'Poppins', sans-serif;
       margin: 0;
-      background: #f5f7fa;
+      background: transparent;
       color: #333;
     }
 
-    .chart-container {
+    .embed-container {
       width: 100%;
       max-width: 980px;
       margin: 0 auto;
-      padding: 24px;
-      background: #fff;
-      border-radius: 12px;
+      padding: 10px 0 0 0;
       box-sizing: border-box;
-    }
-
-    .chart-title {
-      text-align: center;
-      margin: 0 0 10px 0;
-      color: #333;
-      font-size: 1.7rem;
-    }
-
-    .chart-description {
-      text-align: center;
-      width: 82%;
-      margin: 0 auto 18px;
-      color: #555;
-      line-height: 1.6;
     }
 
     .controls {
@@ -50,6 +33,7 @@
     .controls label {
       font-weight: 600;
       color: #333;
+      font-size: 15px;
     }
 
     .controls select {
@@ -59,19 +43,6 @@
       background: #fff;
       font-size: 14px;
       color: #333;
-    }
-
-    .helper-note {
-      width: 82%;
-      margin: 0 auto 16px;
-      color: #555;
-      font-size: 0.95rem;
-      line-height: 1.5;
-      background: #eef6fc;
-      border-left: 4px solid #1984c5;
-      border-radius: 8px;
-      padding: 12px 14px;
-      box-sizing: border-box;
     }
 
     #chart {
@@ -124,13 +95,6 @@
       font-size: 12px;
     }
 
-    .footnote {
-      text-align: center;
-      color: #555;
-      font-size: 13px;
-      margin-top: 8px;
-    }
-
     .error-message {
       text-align: center;
       color: #b00020;
@@ -140,24 +104,13 @@
   </style>
 </head>
 <body>
-  <div class="chart-container">
-    <h2 class="chart-title">Streaming Time of Day by Genre</h2>
-
-    <p class="chart-description">
-      This heatmap shows how streaming activity varies across music genres and times of day, with an age group filter for comparison. The x axis represents morning, afternoon, and night, while the y axis shows the top genres.
-    </p>
-
+  <div class="embed-container">
     <div class="controls">
       <label for="ageFilter">Age Group:</label>
       <select id="ageFilter"></select>
     </div>
 
-    <div class="helper-note">
-      <strong>Key insight:</strong> Nighttime is the most dominant listening period across many genres, especially for younger users. Patterns also shift across age groups, showing that when people listen depends on both genre and demographic behavior.
-    </div>
-
     <div id="chart"></div>
-    <div class="footnote">Time ranges: Morning = 6am to 12pm, Afternoon = 12pm to 6pm, Night = 6pm to 12am.</div>
   </div>
 
   <div class="tooltip" id="tooltip"></div>
@@ -209,7 +162,7 @@
         select.append("option").attr("value", group).text(group);
       });
 
-      const margin = { top: 90, right: 70, bottom: 105, left: 165 };
+      const margin = { top: 70, right: 70, bottom: 105, left: 165 };
       const width = 860 - margin.left - margin.right;
 
       const svg = d3.select("#chart")
@@ -371,7 +324,7 @@
         });
 
         const legendX = margin.left + width - legendWidth;
-        const legendY = 28;
+        const legendY = 20;
 
         const legend = svg.append("g").attr("class", "legend-group");
 
