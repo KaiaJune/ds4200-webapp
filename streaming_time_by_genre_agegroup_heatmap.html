@@ -309,8 +309,8 @@
           .attr("fill", d => d.pct > (minPct + maxPct) / 2 ? "#ffffff" : "#333333")
           .text(d => `${d.pct}%`);
 
-        const legendWidth = 170;
-        const legendHeight = 14;
+        const legendWidth = 165;
+        const legendHeight = 13;
         const defs = svg.append("defs");
 
         const gradient = defs.append("linearGradient")
