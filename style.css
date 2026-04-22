@@ -193,14 +193,10 @@ body{
 }
 
 .chart-description{
-    text-align: center;
+    text-align: left;
     margin-bottom: 1em;
     width: 70%;
     color: #555;
-}
-
-.chart-container p {
-  text-align: left;
 }
 
 .chart-frame{
